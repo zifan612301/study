@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8" />
+	<title>首页</title>
+	<link rel="stylesheet" href="js/layui/css/layui.css"  media="all">
+	<link rel="stylesheet" type="text/css" href="css/public.css" />
+	<link rel="stylesheet" type="text/css" href="css/proList.css" />
+	<link rel="stylesheet" type="text/css" href="css/mygxin.css" />
+	<script src="js/layui/layui.js" charset="utf-8"></script>
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/public.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/nav.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/user.js" type="text/javascript" charset="utf-8"></script>
+	<style>
+		.find{
+			border-left:none;
+			border-right:none;
+			border-top:none;
+			border-bottom:1px solid #0F2543;
+		}
+	</style>
+</head>
+
+<body>
+<!------------------------------head------------------------------>
+<div class="head">
+	<div class="wrapper clearfix">
+		<div class="clearfix" id="top">
+			<h1 class="fl"><a href="index.html"><img src="../images/logo.png" style="margin-top: -20px;"/></a></h1>
+			<div class="fr clearfix" id="top1">
+				<p class="fl">
+					<a href="../login.html" id="login">登录</a>
+					<a href="../reg.html" id="reg">注册</a>
+				</p>
+				<form action="#" method="get" class="fl">
+					<input type="text" placeholder="搜索" id="sousuo"/>
+					<a onclick="findBookByName()"><img class="ss" src="images/ss.png" /></a>
+				</form>
+				<div class="btn fl clearfix">
+					<a href="myinfo/mygxin.html"><img src="images/grzx.png" /></a>
+					<a href="myinfo/start.html"><img src="images/collection.png" /></a>
+				</div>
+			</div>
+		</div>
+		<ul class="clearfix" id="bott">
+			<li><a href="index.html">首页</a></li>
+			<li>
+				<a onclick="findByBookCategory(this)">考试教育</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a onclick="findByBookCategory(this)">公务员考试</a>
+						<a onclick="findByBookCategory(this)">英语考试</a>
+						<a onclick="findByBookCategory(this)">考研</a>
+						<a onclick="findByBookCategory(this)">其他考试</a>
+						<a onclick="findByBookCategory(this)">职称考试</a>
+						<a onclick="findByBookCategory(this)">教辅书</a>
+						<a onclick="findByBookCategory(this)">工具书</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a onclick="findByBookCategory(this)">经济管理</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a onclick="findByBookCategory(this)">成功励志</a>
+						<a onclick="findByBookCategory(this)">管理</a>
+						<a onclick="findByBookCategory(this)">经济金融</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a onclick="findByBookCategory(this)">文学艺术</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a onclick="findByBookCategory(this)">收藏鉴赏</a>
+						<a onclick="findByBookCategory(this)">艺术</a>
+						<a onclick="findByBookCategory(this)">文学小说</a>
+						<a onclick="findByBookCategory(this)">文化历史</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a onclick="findByBookCategory(this)">人文社科</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a onclick="findByBookCategory(this)">新闻传播</a>
+						<a onclick="findByBookCategory(this)">心理</a>
+						<a onclick="findByBookCategory(this)">法律</a>
+						<a onclick="findByBookCategory(this)">自然科学</a>
+						<a onclick="findByBookCategory(this)">社会科学</a>
+						<a onclick="findByBookCategory(this)">政治军事</a>
+						<a onclick="findByBookCategory(this)">宗教哲学</a>
+						<a onclick="findByBookCategory(this)">语言学习</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a onclick="findByBookCategory(this)">科学技术</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a onclick="findByBookCategory(this)">汽车与交通运输</a>
+						<a onclick="findByBookCategory(this)">医学卫生</a>
+						<a onclick="findByBookCategory(this)">计算机与网络</a>
+						<a onclick="findByBookCategory(this)">科技工程</a>
+						<a onclick="findByBookCategory(this)">建筑</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a onclick="findByBookCategory(this)">生活休闲</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a onclick="findByBookCategory(this)">生活时尚</a>
+						<a onclick="findByBookCategory(this)">家庭育儿</a>
+						<a onclick="findByBookCategory(this)">旅游地理</a>
+						<a onclick="findByBookCategory(this)">体育保健</a>
+						<a onclick="findByBookCategory(this)">少儿</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<!-----------------address------------------------------->
+<div class="address">
+	<div class="wrapper clearfix">
+		<a href="index.html">首页</a>
+		<span>/</span>
+		<a class="on">全部书籍</a>
+	</div>
+</div>
+<!-----------------paintCon------------------------------->
+<div class="paintCon" id="app">
+	<section class="wrapper">
+		<div class="paintList">
+			<a href="proDetail.html" v-for = "item,index in datalist" :id="item.bookId" @click="looked(index,item.bookId)">
+				<dl>
+					<dt><img :src="item.bookPicture"></dt>
+					<dd>{{item.bookName}}</dd>
+					<dd>￥{{item.bookPrice}}</dd>
+				</dl>
+			</a>
+		</div>
+	</section>
+</div>
+<div id="page" style="margin-left: 28%"></div>
+<!--右下角导航栏返回顶部-->
+<div class="gotop">
+	<a onclick="mystart()">
+		<dl>
+			<dt><img src="images/collection.png"/></dt>
+			<dd>我的<br />收藏</dd>
+		</dl>
+	</a>
+	<a onclick="mysell()" class="dh">
+		<dl>
+			<dt><img src="images/addbook.png"/></dt>
+			<dd>发布<br />图书</dd>
+		</dl>
+	</a>
+	<a onclick="myinfo()">
+		<dl>
+			<dt><img src="images/gt3.png"/></dt>
+			<dd>个人<br />中心</dd>
+		</dl>
+	</a>
+	<a href="#" class="toptop" style="display: none">
+		<dl>
+			<dt><img src="images/gt4.png"/></dt>
+			<dd>返回<br />顶部</dd>
+		</dl>
+	</a>
+</div>
+<!--footer-->
+<div class="footer">
+	<div style="margin-top: 30px;"></div>
+	<p class="dibu">皮卡丘书城&copy;2021<br /> 网站所列数据为测试数据
+	</p>
+</div>
+<script>
+    function findBookByName() {
+        localStorage.setItem("search",$("#sousuo").val());
+        console.log(localStorage.getItem("search"));
+        window.location.href = "search.html";
+    }
+	function findByBookCategory(v) {
+		console.log($(v).text());
+		localStorage.setItem("bookCategory",$(v).text());
+		console.log(localStorage.getItem("bookCategory"));
+        window.location.href = "categorybook.html"
+    }
+    function myinfo() {
+        if (localStorage.getItem("userName") !== null) {
+            window.location.href = "myinfo/mygxin.html";
+        } else {
+            alert("您还没有登录")
+            window.location.href = "login.html";
+        }
+    }
+    function mysell() {
+        if (localStorage.getItem("userName") !== null) {
+            window.location.href = "myinfo/sellbook.html";
+        } else {
+            alert("您还没有登录")
+            window.location.href = "login.html";
+        }
+    }
+    function mystart() {
+        if (localStorage.getItem("userName") !== null) {
+            window.location.href = "myinfo/start.html";
+        } else {
+            alert("您还没有登录")
+            window.location.href = "login.html";
+        }
+    }
+</script>
+<script>
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        //分页显示
+        laypage.render({
+            elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+            ,count: v.count//数据总条数
+            ,limit: 8//每页显示条数
+            ,theme: '#FF5722'
+            ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+            ,jump: function(obj){
+                findBookListPage(obj.curr,obj.limit);
+                v.size = obj.limit;
+            }
+        });
+    });
+</script>
+<script>
+    $(function(){
+        findBookListPage(1,8);
+    })
+    //查询数据的请求，
+    function findBookListPage(pageIndex,pageSize) {
+        //console.log("页数："+pageIndex+"条数："+pageSize);
+        $.ajax({
+            url:"booklist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                pageIndex:pageIndex
+                ,pageSize:pageSize
+            },
+            success:function(data){
+                v.datalist = data.data.list;
+                v.count = data.data.rowCount;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    var v = new Vue({
+        el: "#app",
+        data: {
+            datalist: [],
+            pageIndex:1,
+            pageSize:8,
+			count:0
+        },
+        methods: {
+            looked:function (index,bookId,event) {
+                console.log(index+"______"+bookId);
+				localStorage.setItem("bookId",bookId);
+				//console.log("缓存图书ID："+localStorage.getItem("bookId"));
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

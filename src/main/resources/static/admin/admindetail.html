@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>我的详情</title>
+    <link rel="stylesheet" href="../js/layui/css/layui.css"  media="all">
+    <script src="../js/layui/layui.js" charset="utf-8"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <fieldset class="layui-elem-field" style="width: 60%;margin: auto;margin-top: 80px">
+        <legend>我的详情</legend>
+        <table class="layui-table layui-form" lay-skin="nob">
+            <tr>
+                <td rowspan="3">头像</td>
+                <td rowspan="3"><img :src="user.userPic"></td>
+                <td>用户名：</td>
+                <td>
+                    <input type="text" class="layui-input" v-model="user.userName"/>
+                </td>
+            </tr>
+            <tr>
+                <td>出生年月：</td>
+                <td>
+                    <input type="text" class="layui-input" v-model="user.userBirthday" />
+                </td>
+            </tr>
+            <tr>
+                <td>性别：</td>
+                <td>
+                    <input type="radio" name="sex" value="男" title="男" checked="">
+                    <input type="radio" name="sex" value="女" title="女">
+                </td>
+            </tr>
+            <tr>
+                <td>真实姓名：</td>
+                <td>
+                    <input type="text" class="layui-input" v-model="user.userRealName" />
+                </td>
+                <td>学号：</td>
+                <td>
+                    <input type="text" class="layui-input" v-model="user.userStuId" />
+                </td>
+            </tr>
+            <tr>
+                <td>电话：</td>
+                <td>
+                    <input type="text" class="layui-input" v-model="user.userTel"/>
+                </td>
+                <td>邮箱：</td>
+                <td>
+                    <input type="text" class="layui-input" v-model="user.userEmail" />
+                </td>
+            </tr>
+            <tr>
+                <td>用户角色：</td>
+                <td>
+                    <input type="text" class="layui-input" v-model="user.userRole"/>
+                </td>
+                <td>用户状态：</td>
+                <td>
+                    <input type="text" class="layui-input" v-model="user.userStatus" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <button  style="margin-left: 400px" class="layui-btn layui-btn-primary" @click="close">保存</button>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+
+</div>
+</body>
+<script>
+    layui.use(['laypage', 'layer','form'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer
+            ,form = layui.form
+    });
+</script>
+<script>
+    $(function(){
+        //localStorage.getItem("adminId")
+        findByUserId(localStorage.getItem("userName"))
+    })
+    function findByUserId(userId) {
+        console.log(userId);
+        $.ajax({
+            url:"/../userdetail",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                userName:userId
+            },
+            success:function(data){
+                v.user = data.data;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    var v = new Vue({
+        el: "#app",
+        data: {
+            user: []
+        },
+        methods: {
+
+        },
+    });
+</script>
+</html>

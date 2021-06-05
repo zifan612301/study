@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+		<meta charset="utf-8" />
+		<title>个人中心</title>
+		<link rel="stylesheet" type="text/css" href="../css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/mygxin.css" />
+		<script src="../js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/user.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+	</head>
+	<body>
+		<!------------------------------head------------------------------>
+		<div class="head">
+			<div class="wrapper clearfix">
+				<div class="clearfix" id="top">
+					<h1 class="fl"><a href="index.html"><img src="../images/logo.png" style="margin-top: -20px;"/></a></h1>
+					<div class="fr clearfix" id="top1">
+						<p class="fl">
+							<a href="../login.html" id="login">登录</a>
+							<a href="../reg.html" id="reg">注册</a>
+						</p>
+						<form action="#" method="get" class="fl">
+							<input type="text" placeholder="搜索" id="sousuo"/>
+							<a onclick="findBookByName()"><img class="ss" src="../images/ss.png" /></a>
+						</form>
+						<div class="btn fl clearfix">
+							<a href="mygxin.html"><img src="../images/grzx.png" /></a>
+							<a href="start.html"><img src="../images/collection.png" /></a>
+						</div>
+					</div>
+				</div>
+				<ul class="clearfix" id="bott">
+					<li><a href="../index.html">首页</a></li>
+					<li>
+						<a href="#" onclick="findByBookCategory(this)">考试教育</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">公务员考试</a>
+								<a onclick="findByBookCategory(this)">英语考试</a>
+								<a onclick="findByBookCategory(this)">考研</a>
+								<a onclick="findByBookCategory(this)">其他考试</a>
+								<a onclick="findByBookCategory(this)">职称考试</a>
+								<a onclick="findByBookCategory(this)">教辅书</a>
+								<a onclick="findByBookCategory(this)">工具书</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a onclick="findByBookCategory(this)">经济管理</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">成功励志</a>
+								<a onclick="findByBookCategory(this)">管理</a>
+								<a onclick="findByBookCategory(this)">经济金融</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a onclick="findByBookCategory(this)">文学艺术</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">收藏鉴赏</a>
+								<a onclick="findByBookCategory(this)">艺术</a>
+								<a onclick="findByBookCategory(this)">文学小说</a>
+								<a onclick="findByBookCategory(this)">文化历史</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a onclick="findByBookCategory(this)">人文社科</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">新闻传播</a>
+								<a onclick="findByBookCategory(this)">心理</a>
+								<a onclick="findByBookCategory(this)">法律</a>
+								<a onclick="findByBookCategory(this)">自然科学</a>
+								<a onclick="findByBookCategory(this)">社会科学</a>
+								<a onclick="findByBookCategory(this)">政治军事</a>
+								<a onclick="findByBookCategory(this)">宗教哲学</a>
+								<a onclick="findByBookCategory(this)">语言学习</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a onclick="findByBookCategory(this)">科学技术</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">汽车与交通运输</a>
+								<a onclick="findByBookCategory(this)">医学卫生</a>
+								<a onclick="findByBookCategory(this)">计算机与网络</a>
+								<a onclick="findByBookCategory(this)">科技工程</a>
+								<a onclick="findByBookCategory(this)">建筑</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a onclick="findByBookCategory(this)">生活休闲</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">生活时尚</a>
+								<a onclick="findByBookCategory(this)">家庭育儿</a>
+								<a onclick="findByBookCategory(this)">旅游地理</a>
+								<a onclick="findByBookCategory(this)">体育保健</a>
+								<a onclick="findByBookCategory(this)">少儿</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!------------------------------idea------------------------------>
+		<div class="address mt" id="add">
+			<div class="wrapper clearfix">
+				<a href="../index.html" class="fl">首页</a>
+				<span>/</span>
+				<a href="mygxin.html" class="on">个人中心</a>
+			</div>
+		</div>
+		
+		<!------------------------------Bott------------------------------>
+		<div class="Bott" id="app">
+			<div class="wrapper clearfix">
+				<div class="zuo fl">
+					<h3>
+						<a href="#"><img src="../images/tx.png" id="touxiang" width="90px" height="90px"/></a>
+						<p class="clearfix"><span class="fl">[{{userName}}]</span><span class="fr" onclick="exitmy()">[退出登录]</span></p>
+					</h3>
+					<div>
+						<h4>我的交易</h4>
+						<ul>
+							<li><a href="start.html">我的收藏</a></li>
+							<li><a href="myorderq.html">我的订单</a></li>
+							<li><a href="mysell.html">我卖出的</a></li>
+						</ul>
+						<h4>个人中心</h4>
+						<ul>
+							<li  class="on"><a href="mygxin.html">我的中心</a></li>
+							<li><a href="address.html">地址管理</a></li>
+							<li><a href="sellbook.html">发布书籍</a></li>
+						</ul>
+						<h4>账户管理</h4>
+						<ul>
+							<li><a href="mygrxx.html">个人信息</a></li>
+							<li><a href="remima.html">修改密码</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="you fl">
+					<div class="tx clearfix">
+						<div class="fl clearfix">
+							<a href="#" class="fl"><img src="../images/tx.png"  id="touxiang1" width="90px" height="90px"/></a>
+							<p class="fl"><span>{{userName}}</span><a href="mygrxx.html">修改个人信息></a></p>
+						</div>
+					</div>
+					<div class="bott">
+						<div class="clearfix">
+							<a href="#" class="fl"><img src="../img/gxin2.jpg" style="height: 96px;width: 96px"/></a>
+							<p class="fl"><span>收货地址：<strong>{{adressNum}}</strong></span>
+								<a href="address.html">查看收货地址></a>
+							</p>
+						</div>
+						<div class="clearfix">
+							<a href="#" class="fl"><img src="../img/gxin1.jpg" style="height: 96px;width: 96px"/></a>
+							<p class="fl"><span>我售出的：<strong>{{sellBookNum}}</strong></span>
+								<a href="mysell.html">查看我售出的图书></a>
+							</p>
+						</div>
+						<div class="clearfix">
+							<a href="#" class="fl"><img src="../img/order.png" style="height: 96px;width: 96px"/></a>
+							<p class="fl"><span>我的订单：<strong>{{orderNum}}</strong></span>
+								<a href="myorderq.html">查看我的订单></a>
+							</p>
+						</div>
+						<div class="clearfix">
+							<a href="#" class="fl"><img src="../img/gxin4.jpg" style="height: 96px;width: 96px"/></a>
+							<p class="fl"><span>收藏的图书：<strong>{{collectionNum}}</strong></span>
+								<a href="start.html">查看我的收藏></a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--右下角导航栏返回顶部-->
+		<div class="gotop">
+			<a onclick="mystart()">
+				<dl>
+					<dt><img src="../images/collection.png"/></dt>
+					<dd>我的<br />收藏</dd>
+				</dl>
+			</a>
+			<a onclick="mysell()" class="dh">
+				<dl>
+					<dt><img src="../images/addbook.png"/></dt>
+					<dd>发布<br />图书</dd>
+				</dl>
+			</a>
+			<a onclick="myinfo()">
+				<dl>
+					<dt><img src="../images/gt3.png"/></dt>
+					<dd>个人<br />中心</dd>
+				</dl>
+			</a>
+			<a href="#" class="toptop" style="display: none">
+				<dl>
+					<dt><img src="../images/gt4.png"/></dt>
+					<dd>返回<br />顶部</dd>
+				</dl>
+			</a>
+		</div>
+		<!--footer-->
+		<div class="footer">
+			<div style="margin-top: 30px;"></div>
+			<p class="dibu">皮卡丘书城&copy;2021<br/> 网站所列数据为测试数据</p>
+		</div>
+	</body>
+<script>
+    var v = new Vue({
+        el: "#app",
+        data: {
+            userName:"",
+            collectionNum:"",
+            orderNum:"",
+            adressNum:"",
+            sellBookNum:""
+        },
+    })
+	$(function () {
+		if(localStorage.getItem("userName")!==null){
+            $.ajax({
+                url:"../userinfo",
+                type:"post",
+                async: false,//使用同步的方式,true为异步方式
+                data:{
+                    userName:localStorage.getItem("userName")
+                },
+                success:function(data){
+                    v.userName=data.data.userName;
+                    $("#touxiang").attr("src",data.data.userPic);
+                    $("#touxiang1").attr("src",data.data.userPic);
+                },
+                fail:function(){
+                    alert(error);
+                }
+            })
+            $.ajax({
+                url:"../mycount",
+                type:"get",
+                async: false,//使用同步的方式,true为异步方式
+                data:{
+                    userName:localStorage.getItem("userName")
+                },
+                success:function(data){
+                    console.count(data.data)
+                    v.collectionNum=data.data.collectionNum;
+                    v.orderNum=data.data.orderNum;
+                    v.adressNum=data.data.adressNum;
+                    v.sellBookNum=data.data.sellBookNum;
+                    console.count(v.count)
+                },
+                fail:function(){
+                    alert(error);
+                }
+            })
+		}else {
+		    location.href="../login.html";
+		}
+    })
+</script>
+	<script>
+        function findByBookCategory(v) {
+            console.log($(v).text());
+            localStorage.setItem("bookCategory",$(v).text());
+            console.log(localStorage.getItem("bookCategory"));
+            window.location.href = "../categorybook.html"
+        }
+        function findBookByName() {
+            localStorage.setItem("search",$("#sousuo").val());
+            console.log(localStorage.getItem("search"));
+            window.location.href = "../search.html";
+        }
+        function myinfo() {
+            if (localStorage.getItem("userName") !== null) {
+                window.location.href = "mygxin.html";
+            } else {
+                alert("您还没有登录")
+                window.location.href = "../login.html";
+            }
+        }
+        function mysell() {
+            if (localStorage.getItem("userName") !== null) {
+                window.location.href = "sellbook.html";
+            } else {
+                alert("您还没有登录")
+                window.location.href = "../login.html";
+            }
+        }
+        function mystart() {
+            if (localStorage.getItem("userName") !== null) {
+                window.location.href = "start.html";
+            } else {
+                alert("您还没有登录")
+                window.location.href = "../login.html";
+            }
+        }
+        function exitmy() {
+            localStorage.removeItem('userName')
+            location.href="../login.html"
+        }
+	</script>
+</html>

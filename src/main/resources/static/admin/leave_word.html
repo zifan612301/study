@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>留言管理</title>
+    <link rel="stylesheet" href="../js/layui/css/layui.css"  media="all">
+    <script src="../js/layui/layui.js" charset="utf-8"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <!--导航栏增删改用-->
+    <blockquote class="layui-elem-quote">
+        <table class="layui-form">
+            <tr>
+                <td>&nbsp;&nbsp;
+                    <button type="button" class="layui-btn layui-btn-primary">留言内容：</button>
+                </td>
+                <td><input type="text" id="findleaveword" name="title" placeholder="请输入内容" autocomplete="off" class="layui-input" style="width: 200px;"></td>
+                <td>
+                <td>&nbsp;&nbsp;
+                    <button type="button" class="layui-btn" v-on:click="find()">查询</button>
+                </td>
+            </tr>
+        </table>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>留言列表</legend>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>留言内容</th>
+                <th>用户名</th>
+                <th>留言时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item,index in datalist">
+                <td>{{index+1}}</td>
+                <td>{{item.leaveContent}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.leaveDate}}</td>
+                <td style="width: 400px;">
+                    <!--<button class="layui-btn layui-btn-normal"><img src="../images/sousuo.png"/>&nbsp;浏览</button>-->
+                    <!--<button class="layui-btn layui-btn-normal" v-on:click="editlb(index)">
+                        <img src="../img/edit.png"/>&nbsp;编辑
+                    </button>-->
+                    <button class="layui-btn layui-btn-danger" v-on:click="dellb(index)">
+                        <img src="../img/delete.png"/>&nbsp;删除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page" style="margin-left: 28%"></div>
+    </fieldset>
+
+</div>
+</body>
+<script>
+    layui.use(['laypage', 'layer','form'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer
+            ,form = layui.form
+        //分页显示
+        laypage.render({
+            elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+            ,count: v.rowCount//数据总条数
+            ,limit: 6//每页显示条数
+            ,theme: '#FF5722'
+            ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+            ,jump: function(obj){
+                leaveWordListPage(obj.curr,obj.limit);
+                v.size = obj.limit;
+            }
+        });
+    });
+</script>
+<script>
+    $(function(){
+        leaveWordListPage(1,6);
+    })
+    //查询数据的请求，
+    function leaveWordListPage(pageIndex,pageSize) {
+        $.ajax({
+            url:"/../leavewordlist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                pageIndex:pageIndex
+                ,pageSize:pageSize
+            },
+            success:function(data){
+                v.datalist = data.data.list;
+                v.rowCount = data.data.rowCount;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    function findbyname(pageIndex,pageSize) {
+        $.ajax({
+            url:"/../findleavewordlist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                leaveContant:$("#findleaveword").val()
+                ,pageIndex:pageIndex
+                ,pageSize:pageSize
+            },
+            success:function(data){
+                v.datalist = data.data.list;
+                v.rowCount = data.data.rowCount;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    var v = new Vue({
+        el: "#app",
+        data: {
+            datalist: []
+            ,rowCount:1
+        },
+        methods: {
+            find: function () {
+                findbyname(1,6)
+                layui.use(['laypage'], function(){
+                    var laypage = layui.laypage
+                    //分页显示
+                    laypage.render({
+                        elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+                        ,count: v.rowCount//数据总条数
+                        ,limit: 6//每页显示条数
+                        ,theme: '#FF5722'
+                        ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                        ,jump: function(obj){
+                            findbyname(obj.curr,obj.limit);
+                            v.size = obj.limit;
+                        }
+                    });
+                });
+            },
+            dellb: function (index) {
+                if (confirm("确定要删除吗")){
+                    $.ajax({
+                        url:"/../deleteleaveword",
+                        type:"delete",
+                        async: false,//使用同步的方式,true为异步方式
+                        data:{
+                            leaveId:this.datalist[index].leaveId
+                        },
+                        success:function(data){
+                            window.location.reload();
+                        },
+                        fail:function(){
+                            alert(error);
+                        }
+                    })
+                }
+            },
+        },
+    });
+</script>
+</html>

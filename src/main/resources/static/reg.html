@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>皮卡丘书城用户登录</title>
+	<link href="css/reg.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
+	<script type="text/javascript" src="js/jQuery1.7.js"></script>
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery1.42.min.js"></script>
+	<script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
+	<script type="text/javascript" src="js/Validform_v5.3.2_min.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/style.css">
+	<script src="js/jquery1.10.2.min.js"></script>
+	<script src="js/img_ver.js"></script>
+	<style>
+		.bxs-row {
+			margin-bottom:12px;
+		}
+		.logo-box {
+			width:404px;
+			margin:120px auto;
+			border:1px solid #e5e5e5;
+			border-radius:4px;
+			box-shadow:0 4px 18px rgba(0,0,0,0.2);
+			position:relative;
+			overflow:hidden;
+			height:360px;
+		}
+		.login {
+			position:absolute;
+			width:320px;left:0;
+			top:0;
+			padding: 42px 42px 36px;
+			transition:all 0.8s;
+		}
+		.username,.password,.btn {
+			height: 44px;
+			width: 100%;
+			padding: 0 10px;
+			border: 1px solid #9da3a6;
+			background: #fff;
+			text-overflow: ellipsis;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			-khtml-border-radius: 4px;
+			border-radius: 4px;
+			-webkit-box-shadow: none;
+			-moz-box-shadow: none;
+			box-shadow: none;
+			color: #000;
+			font-size: 1em;
+			font-family: Helvetica,Arial,sans-serif;
+			font-weight: 400;
+			direction: ltr;
+			font-size:13px;
+		}
+		.submit {
+			background-color: #0070ba;
+			color:#fff;
+			border:1px solid #0070ba;
+		}
+		.submit:hover {
+			background-color:#005ea6;
+		}
+		.verBox {
+			width:404px;
+			margin:auto;
+			border:1px solid #e5e5e5;
+			border-radius:4px;
+			box-shadow:0 4px 18px rgba(0,0,0,0.2);
+			position:relative;
+			overflow:hidden;
+			background: #FFFFFF;
+			opacity: 0.1;
+			height:258px;
+			position:absolute;
+			width:99%;
+			text-align:center;
+			left:404px;
+			top:0;
+			opacity:0;
+			transition:all 0.8s;
+			padding-top:55px;
+		}
+		.err {
+			margin:12px 0 0;
+			line-height:12px;
+			height:12px;
+			font-size:12px;
+			color:red;
+		}
+	</style>
+	<script type="text/javascript">
+        $(document).ready(function(){
+            var $tab_li = $('#tab ul li');
+            $tab_li.hover(function(){
+                $(this).addClass('selected').siblings().removeClass('selected');
+                var index = $tab_li.index(this);
+                $('div.tab_box > div').eq(index).show().siblings().hide();
+            });
+        });
+	</script>
+	<script type="text/javascript">
+        $(function(){
+            $(".screenbg ul li").each(function(){
+                $(this).css("opacity","0");
+            });
+            $(".screenbg ul li:first").css("opacity","1");
+            var index = 0;
+            var t;
+            var li = $(".screenbg ul li");
+            var number = li.size();
+            function change(index){
+                li.css("visibility","visible");
+                li.eq(index).siblings().animate({opacity:0},3000);
+                li.eq(index).animate({opacity:1},3000);
+            }
+            function show(){
+                index = index + 1;
+                if(index<=number-1){
+                    change(index);
+                }else{
+                    index = 0;
+                    change(index);
+                }
+            }
+            t = setInterval(show,8000);
+            //根据窗口宽度生成图片宽度
+            var width = $(window).width();
+            $(".screenbg ul img").css("width",width+"px");
+        });
+	</script>
+</head>
+
+<body>
+<div id="tab">
+	<ul class="tab_menu">
+		<li class="selected">会员注册</li>
+	</ul>
+	<div class="tab_box">
+		<!-- 会员用户登陆开始 -->
+		<div>
+			<div class="stu_error_box"></div>
+			<form action="" method="post" class="stu_login_error">
+				<span class="stu_tips" style="color:red;"></span>
+				<div id="username">
+					<label>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</label>
+					<input type="text" class="username"  id="username1" name="username" placeholder="用户名" onblur="checkUserName()"/>
+					<!--ajaxurl="demo/valid.jsp"-->
+				</div>
+				<div id="password">
+					<label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+					<input type="password" class="password" id="password1" placeholder="密码" name="password" />
+				</div>
+				<div id="password">
+					<label>确认密码：</label>
+					<input type="password" class="repassword" id="repassword" placeholder="重复密码" name="password" onblur="checkpwd()"/>
+				</div>
+				<div>
+					<a href="login.html"><label>已注册去登录</label></a>
+				</div>
+				<div id="login">
+					<button type="button" id="stu_submit" class="submit btn" >注册</button>
+				</div>
+			</form>
+		</div>
+		<!-- 会员用户登陆结束-->
+	</div>
+	<div class="verBox">
+		<div id="imgVer" style="display:inline-block;"></div>
+	</div>
+</div>
+<div class="bottom">
+	©2021 houtao <a href="javascript:;" target="_blank">关于</a>
+	<span>商洛学院</span>
+	<a href=mailto:.com target="_blank">皮卡丘书城</a>
+	<img width="13" height="16" src="images/copy_rignt_24.png" />
+</div>
+<div class="screenbg">
+	<ul>
+		<li><a href="javascript:;"><img src="images/pkq2.jpg"></a></li>
+		<li><a href="javascript:;"><img src="images/pkq1.jpg"></a></li>
+		<li><a href="javascript:;"><img src="images/pkq3.jpg"></a></li>
+	</ul>
+</div>
+<script>
+	//检查用户名
+	function checkUserName(){
+	    if($("#username1").val()!==null){
+            $.ajax({
+                url:"findName",
+                type:"post",
+                async: false,//使用同步的方式,true为异步方式
+                data:{
+                    userName:$("#username1").val()
+                },
+                success:function(data){
+                    if(data.msg == "用户名已存在"){
+                        $(".stu_tips").html(data.msg);
+                        $("#username1").focus();
+                        return false;
+					}else{
+                        $(".stu_tips").html('');
+                        return true;
+					}
+                },
+                fail:function(){
+                    alert(error);
+                    return false;
+                }
+            })
+		}
+	}
+	//检查密码
+    function checkpwd() {
+        if($("#repassword").val()!==$("#password1").val()){
+            $(".stu_tips").html("两次输入的密码不一致");
+            $("#repassword").focus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+    //验证码
+    imgVer({
+        el:'$("#imgVer")',
+        width:'260',
+        height:'116',
+        img:[
+            'images/ver.png',
+            'images/ver-1.png',
+            'images/ver-2.png',
+            'images/ver-3.png',
+            'images/logo.jpg',
+        ],
+        success:function () {
+            console.log($("#username1").val());
+            console.log($("#password1").val());
+            console.log(checkUserName())
+            console.log(checkpwd());
+            if($("#username1").val()!==null && $("#username1").val()!=="" && checkpwd()){
+                $.ajax({
+                    url:"adduserName",
+                    type:"get",
+                    async: false,//使用同步的方式,true为异步方式
+                    data:{
+                        userName:$("#username1").val()
+                        ,userPwd:$("#password1").val()
+                    },
+                    success:function(data){
+                        if(data.msg=="ok"){
+                            localStorage.setItem("userName",$("#username1").val())
+                            location.href='index.html';
+						}else {
+                            $(".verBox").css({
+                                "left":"404px",
+                                "opacity":"0"
+                            });
+                            $(".stu_tips").html('注册失败');
+                        }
+                    },
+                    fail:function(){
+                        $(".verBox").css({
+                            "left":"404px",
+                            "opacity":"0"
+                        });
+                        $(".stu_tips").html('注册失败');
+                    }
+                })
+            }else{
+                $(".verBox").css({
+                    "left":"404px",
+                    "opacity":"0"
+                });
+                $(".stu_tips").html('注册失败');
+			}
+        },
+        error:function () {
+        }
+    });
+    $(".stu_username").on('focus',function () {
+        $("#username1").html('');
+    });
+    /*学生注册*/
+    $("#stu_submit").on('click',function () {
+        if($("#stu_username").val() == '') {
+            $(".stu_tips").html('请填写用户名');
+        } else if($("#password1").val() == '') {
+            $(".stu_tips").html('请输入密码');
+        }else if($("#repassword").val() == '') {
+            $(".stu_tips").html('请重复密码');
+        } else {
+            $(".verBox").css({
+                "left":"0",
+                "opacity":"1"
+            })
+        }
+    })
+</script>
+</body>
+</html>

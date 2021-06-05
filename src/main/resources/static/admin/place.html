@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>交易地点管理</title>
+    <link rel="stylesheet" href="../js/layui/css/layui.css"  media="all">
+    <script src="../js/layui/layui.js" charset="utf-8"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <!--导航栏增删改用-->
+    <blockquote class="layui-elem-quote">
+        <table class="layui-form">
+            <tr>
+                <td>&nbsp;&nbsp;
+                    <button type="button" class="layui-btn layui-btn-primary">交易地点：</button>
+                </td>
+                <td><input type="text" id="findplace" name="title" placeholder="请输入内容" autocomplete="off" class="layui-input" style="width: 200px;"></td>
+                <td>
+                <td>&nbsp;&nbsp;
+                    <button type="button" class="layui-btn" v-on:click="find()">查询</button>
+                </td>
+                <td>&nbsp;&nbsp;
+                    <button type="button" class="layui-btn" v-on:click="addplace()">添加</button>
+                </td>
+            </tr>
+        </table>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>交易地点列表</legend>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>交易地点</th>
+                <th>父交易地址</th>
+                <th>地点级别</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item,index in datalist">
+                <td>{{index+1}}</td>
+                <td>{{item.placeName}}</td>
+                <td>{{item.placeFatherName}}</td>
+                <td>{{item.placeLevel}}</td>
+                <td style="width: 400px;">
+                    <!--<button class="layui-btn layui-btn-normal"><img src="../images/sousuo.png"/>&nbsp;浏览</button>-->
+                    <button class="layui-btn layui-btn-normal" v-on:click="editplace(index)">
+                        <img src="../img/edit.png"/>&nbsp;编辑
+                    </button>
+                    <button class="layui-btn layui-btn-danger" v-on:click="delplace(index)">
+                        <img src="../img/delete.png"/>&nbsp;删除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page" style="margin-left: 28%"></div>
+    </fieldset>
+
+</div>
+<div id="editplace" style="display: none;">
+    <table class="layui-table layui-form" lay-skin="nob">
+        <tr>
+            <td>交易地点：</td>
+            <td><input type="text" id="editplacename" class="layui-input" v-model="place.placeName"/></td>
+        </tr>
+        <tr>
+            <td>父交易地址：</td>
+            <td>
+                <div class="city">
+                    <select id="selectplace" v-model="place.placeFatherName"  required>
+                        <option value="0">没有父交易地点</option>
+                        <option  :id="item.placeTransactionId"  v-for="item in placelist">{{item.placeName}}</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="margin: auto">
+                <button class="layui-btn layui-btn-primary" @click="save">保存</button>
+            </td>
+            <td style="margin: auto">
+                <button class="layui-btn layui-btn-primary" @click="close">关闭</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="addplace" style="display: none;">
+    <table class="layui-table layui-form" lay-skin="nob">
+        <tr>
+            <td>交易地点：</td>
+            <td><input type="text" id="addplacename" class="layui-input"/></td>
+        </tr>
+        <tr>
+            <td>父交易地址：</td>
+            <td>
+                <div class="city">
+                    <select required>
+                        <option value="0">没有父交易地点</option>
+                        <option  :id="item.placeTransactionId"  v-for="item in placelist">{{item.placeName}}</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="margin: auto">
+                <button class="layui-btn layui-btn-primary " @click="add">添加</button>
+            </td>
+            <td style="margin: auto">
+                <button class="layui-btn layui-btn-primary" @click="close">关闭</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script>
+    layui.use(['laypage', 'layer','form'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer
+            ,form = layui.form
+        //分页显示
+        laypage.render({
+            elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+            ,count: v.rowCount//数据总条数
+            ,limit: 6//每页显示条数
+            ,theme: '#FF5722'
+            ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+            ,jump: function(obj){
+                placeListPage(obj.curr,obj.limit);
+                v.size = obj.limit;
+            }
+        });
+    });
+</script>
+<script>
+    $(function(){
+        placeListPage(1,6);
+    })
+    //查询数据的请求，
+    function placeListPage(pageIndex,pageSize) {
+        $.ajax({
+            url:"/../placepagelist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                pageIndex:pageIndex
+                ,pageSize:pageSize
+            },
+            success:function(data){
+                v.datalist = data.data.list;
+                v.rowCount = data.data.rowCount;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    /*模糊查询*/
+    function findByPlaceName(pageIndex,pageSize) {
+        console.log($("#findplace").val())
+        $.ajax({
+            url:"/../placepagebyplacenamelist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                placeName:$("#findplace").val()
+                ,pageIndex:pageIndex
+                ,pageSize:pageSize
+            },
+            success:function(data){
+                v.datalist = data.data.list;
+                v.rowCount = data.data.rowCount
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    /*交易地点名列表*/
+    function placeList(){
+        $.ajax({
+            url:"/../placelist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+            },
+            success:function(data){
+                editplace.placelist = data.data;
+                addplace.placelist = data.data;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    var v = new Vue({
+        el: "#app",
+        data: {
+            datalist: []
+            ,rowCount:1
+        },
+        methods: {
+            editplace: function (index) {
+                placeList();
+                setTimeout(function () {
+                    layui.form.render();//延迟重新渲染
+                }, 10);
+                layer.open({
+                    anim: 3,
+                    area: ['400px', '300px'],
+                    title: "编辑交易地点",
+                    type: 1,
+                    content: $("#editplace")
+                })
+                editplace.place = this.datalist[index];
+            },
+            addplace: function () {
+                placeList();
+                setTimeout(function () {
+                    layui.form.render();//延迟重新渲染
+                }, 10);
+                layer.open({
+                    anim: 5,
+                    area: ['400px', '300px'],
+                    title: "添加交易地点",
+                    type: 1,
+                    content: $("#addplace")
+                })
+            },
+            find: function () {
+                findByPlaceName(1,6);
+                layui.use(['laypage'], function(){
+                    var laypage = layui.laypage
+                    //分页显示
+                    laypage.render({
+                        elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+                        ,count: v.rowCount//数据总条数
+                        ,limit: 6//每页显示条数
+                        ,theme: '#FF5722'
+                        ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                        ,jump: function(obj){
+                            findByPlaceName(obj.curr,obj.limit);
+                            v.size = obj.limit;
+                        }
+                    });
+                });
+            },
+            delplace: function (index) {
+                if (confirm("确定要删除吗")){
+                    $.ajax({
+                        url:"/../deleteplace",
+                        type:"delete",
+                        async: false,//使用同步的方式,true为异步方式
+                        data:{
+                            placeId:this.datalist[index].placeTransactionId
+                        },
+                        success:function(data){
+                            window.location.reload();
+                        },
+                        fail:function(){
+                            alert(error);
+                        }
+                    })
+                }
+            },
+        },
+    });
+    //新增类别
+    var addplace = new Vue({
+        el:"#addplace",
+        data:{
+            placelist:[],
+            place:[]
+        },
+        methods:{
+            add:function () {
+                $.ajax({
+                    url:"/../addplace",
+                    type:"post",
+                    data:{
+                        placeName:$("#addplacename").val(),
+                        fatherplaceName:$("select option:checked").text(),
+                    },
+                    async: false,//使用同步的方式,true为异步方式
+                    success:function(data){
+                        window.location.reload();
+                    },
+                    fail:function(){
+                        alert(error);
+                    }
+                })
+            },
+            close:function () {
+                layer.close(layer.index);//弹出框关闭按钮触发函数close()
+            }
+        }
+    });
+    //编辑类别
+    var editplace = new Vue({
+        el:"#editplace",
+        data:{
+            placelist:[],
+            place:[],
+        },
+        methods:{
+            save:function () {
+                $.ajax({
+                    url:"/../updateplace",
+                    type:"post",
+                    data:{
+                        placeId:this.place.placeTransactionId,
+                        placeName:$("#editplacename").val(),
+                        fatherplaceName:$("#selectplace option:checked").text(),
+                    },
+                    async: false,//使用同步的方式,true为异步方式
+                    success:function(data){
+                        window.location.reload();
+                    },
+                    fail:function(){
+                        alert(error);
+                    }
+                })
+            },
+            close:function () {
+                layer.close(layer.index);//弹出框关闭按钮触发函数close()
+            }
+        }
+    });
+</script>
+</html>

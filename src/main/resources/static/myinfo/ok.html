@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8" />
+    <title>ok</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/proList.css" />
+</head>
+<body>
+<!----------------------------------------order------------------>
+<div class="head">
+    <div class="wrapper clearfix">
+        <div class="clearfix" id="top">
+            <h1 class="fl"><a href="index.html"><img src="../images/logo.png" style="margin-top: -20px;"/></a></h1>
+            <div class="fr clearfix" id="top1">
+                <p class="fl">
+                    <a href="../login.html" id="login">登录</a>
+                    <a href="../reg.html" id="reg">注册</a>
+                </p>
+                <form action="#" method="get" class="fl">
+                    <input type="text" placeholder="搜索" id="sousuo"/>
+                    <a onclick="findBookByName()"><img class="ss" src="../images/ss.png" /></a>
+                </form>
+                <div class="btn fl clearfix">
+                    <a href="mygxin.html"><img src="../images/grzx.png" /></a>
+                    <a href="start.html"><img src="../images/collection.png" /></a>
+                </div>
+            </div>
+        </div>
+        <ul class="clearfix" id="bott">
+            <li><a href="../index.html">首页</a></li>
+            <li>
+                <a href="#" onclick="findByBookCategory(this)">考试教育</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">公务员考试</a>
+                        <a onclick="findByBookCategory(this)">英语考试</a>
+                        <a onclick="findByBookCategory(this)">考研</a>
+                        <a onclick="findByBookCategory(this)">其他考试</a>
+                        <a onclick="findByBookCategory(this)">职称考试</a>
+                        <a onclick="findByBookCategory(this)">教辅书</a>
+                        <a onclick="findByBookCategory(this)">工具书</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a onclick="findByBookCategory(this)">经济管理</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">成功励志</a>
+                        <a onclick="findByBookCategory(this)">管理</a>
+                        <a onclick="findByBookCategory(this)">经济金融</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a onclick="findByBookCategory(this)">文学艺术</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">收藏鉴赏</a>
+                        <a onclick="findByBookCategory(this)">艺术</a>
+                        <a onclick="findByBookCategory(this)">文学小说</a>
+                        <a onclick="findByBookCategory(this)">文化历史</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a onclick="findByBookCategory(this)">人文社科</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">新闻传播</a>
+                        <a onclick="findByBookCategory(this)">心理</a>
+                        <a onclick="findByBookCategory(this)">法律</a>
+                        <a onclick="findByBookCategory(this)">自然科学</a>
+                        <a onclick="findByBookCategory(this)">社会科学</a>
+                        <a onclick="findByBookCategory(this)">政治军事</a>
+                        <a onclick="findByBookCategory(this)">宗教哲学</a>
+                        <a onclick="findByBookCategory(this)">语言学习</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a onclick="findByBookCategory(this)">科学技术</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">汽车与交通运输</a>
+                        <a onclick="findByBookCategory(this)">医学卫生</a>
+                        <a onclick="findByBookCategory(this)">计算机与网络</a>
+                        <a onclick="findByBookCategory(this)">科技工程</a>
+                        <a onclick="findByBookCategory(this)">建筑</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a onclick="findByBookCategory(this)">生活休闲</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">生活时尚</a>
+                        <a onclick="findByBookCategory(this)">家庭育儿</a>
+                        <a onclick="findByBookCategory(this)">旅游地理</a>
+                        <a onclick="findByBookCategory(this)">体育保健</a>
+                        <a onclick="findByBookCategory(this)">少儿</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="order mt cart">
+    <div class="site">
+        <p class="wrapper clearfix">
+            <span class="fl">订单已生成</span>
+            <img class="top" src="../images/cartTop03.png">
+        </p>
+    </div>
+    <p class="ok">生成订单成功！剩余<span>5</span>秒<a href="myorderq.html">返回订单页</a></p>
+</div>
+<!--返回顶部-->
+<div class="gotop">
+    <a onclick="mystart()">
+        <dl>
+            <dt><img src="../images/collection.png"/></dt>
+            <dd>我的<br />收藏</dd>
+        </dl>
+    </a>
+    <a onclick="mysell()" class="dh">
+        <dl>
+            <dt><img src="../images/addbook.png"/></dt>
+            <dd>发布<br />图书</dd>
+        </dl>
+    </a>
+    <a onclick="myinfo()">
+        <dl>
+            <dt><img src="../images/gt3.png"/></dt>
+            <dd>个人<br />中心</dd>
+        </dl>
+    </a>
+    <a href="#" class="toptop" style="display: none">
+        <dl>
+            <dt><img src="../images/gt4.png"/></dt>
+            <dd>返回<br />顶部</dd>
+        </dl>
+    </a>
+</div>
+
+<script src="../js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/pro.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery.SuperSlide.2.1.1.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    jQuery(".bottom").slide({titCell:".hd ul",mainCell:".bd .likeList",autoPage:true,autoPlay:false,effect:"leftLoop",autoPlay:true,vis:1});
+    $(function () {
+        if(localStorage.getItem("userName")!==null){
+
+        }else {
+            location.href="../login.html";
+        }
+
+    })
+</script>
+<script>
+    function findByBookCategory(v) {
+        console.log($(v).text());
+        localStorage.setItem("bookCategory",$(v).text());
+        console.log(localStorage.getItem("bookCategory"));
+        window.location.href = "../categorybook.html"
+    }
+    function findBookByName() {
+        localStorage.setItem("search",$("#sousuo").val());
+        console.log(localStorage.getItem("search"));
+        window.location.href = "../search.html";
+    }
+    function myinfo() {
+        if (localStorage.getItem("userName") !== null) {
+            window.location.href = "mygxin.html";
+        } else {
+            alert("您还没有登录")
+            window.location.href = "../login.html";
+        }
+    }
+    function mysell() {
+        if (localStorage.getItem("userName") !== null) {
+            window.location.href = "sellbook.html";
+        } else {
+            alert("您还没有登录")
+            window.location.href = "../login.html";
+        }
+    }
+    function mystart() {
+        if (localStorage.getItem("userName") !== null) {
+            window.location.href = "start.html";
+        } else {
+            alert("您还没有登录")
+            window.location.href = "../login.html";
+        }
+    }
+</script>
+</body>
+</html>

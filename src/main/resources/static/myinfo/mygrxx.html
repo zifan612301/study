@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+	<head lang="en">
+		<meta charset="utf-8" />
+		<title>个人信息</title>
+		<link rel="stylesheet" type="text/css" href="../css/public.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mygrxx.css" />
+		<link rel="stylesheet" href="../js/layui-v2.2.5/css/layui.css" media="all">
+		<script src="../js/layui-v2.2.5/layui.js" charset="utf-8"></script>
+		<script src="../js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/user.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+	</head>
+
+	<body>
+	<div>
+		<!------------------------------head------------------------------>
+		<div class="head">
+			<div class="wrapper clearfix">
+				<div class="clearfix" id="top">
+					<h1 class="fl"><a href="index.html"><img src="../images/logo.png" style="margin-top: -20px;"/></a></h1>
+					<div class="fr clearfix" id="top1">
+						<p class="fl">
+							<a href="../login.html" id="login">登录</a>
+							<a href="../reg.html" id="reg">注册</a>
+						</p>
+						<form action="#" method="get" class="fl">
+							<input type="text" placeholder="搜索" id="sousuo"/>
+							<a onclick="findBookByName()"><img style="float: right" src="images/ss.png" /></a>
+						</form>
+						<div class="btn fl clearfix">
+							<a href="mygxin.html"><img src="../images/grzx.png" /></a>
+							<a href="start.html"><img src="../images/collection.png" /></a>
+						</div>
+					</div>
+				</div>
+				<ul class="clearfix" id="bott">
+					<li><a href="../index.html">首页</a></li>
+					<li>
+						<a href="#" onclick="findByBookCategory(this)">考试教育</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">公务员考试</a>
+								<a onclick="findByBookCategory(this)">英语考试</a>
+								<a onclick="findByBookCategory(this)">考研</a>
+								<a onclick="findByBookCategory(this)">其他考试</a>
+								<a onclick="findByBookCategory(this)">职称考试</a>
+								<a onclick="findByBookCategory(this)">教辅书</a>
+								<a onclick="findByBookCategory(this)">工具书</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a onclick="findByBookCategory(this)">经济管理</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">成功励志</a>
+								<a onclick="findByBookCategory(this)">管理</a>
+								<a onclick="findByBookCategory(this)">经济金融</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a onclick="findByBookCategory(this)">文学艺术</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">收藏鉴赏</a>
+								<a onclick="findByBookCategory(this)">艺术</a>
+								<a onclick="findByBookCategory(this)">文学小说</a>
+								<a onclick="findByBookCategory(this)">文化历史</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a onclick="findByBookCategory(this)">人文社科</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">新闻传播</a>
+								<a onclick="findByBookCategory(this)">心理</a>
+								<a onclick="findByBookCategory(this)">法律</a>
+								<a onclick="findByBookCategory(this)">自然科学</a>
+								<a onclick="findByBookCategory(this)">社会科学</a>
+								<a onclick="findByBookCategory(this)">政治军事</a>
+								<a onclick="findByBookCategory(this)">宗教哲学</a>
+								<a onclick="findByBookCategory(this)">语言学习</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a onclick="findByBookCategory(this)">科学技术</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">汽车与交通运输</a>
+								<a onclick="findByBookCategory(this)">医学卫生</a>
+								<a onclick="findByBookCategory(this)">计算机与网络</a>
+								<a onclick="findByBookCategory(this)">科技工程</a>
+								<a onclick="findByBookCategory(this)">建筑</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a onclick="findByBookCategory(this)">生活休闲</a>
+						<div class="sList2">
+							<div class="clearfix">
+								<a onclick="findByBookCategory(this)">生活时尚</a>
+								<a onclick="findByBookCategory(this)">家庭育儿</a>
+								<a onclick="findByBookCategory(this)">旅游地理</a>
+								<a onclick="findByBookCategory(this)">体育保健</a>
+								<a onclick="findByBookCategory(this)">少儿</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!------------------------------idea------------------------------>
+		<div class="address mt">
+			<div class="wrapper clearfix">
+				<a href="../index.html" class="fl">首页</a>
+				<span>/</span>
+				<a href="mygxin.html" class="on">个人信息</a>
+			</div>
+		</div>
+
+		<!------------------------------Bott------------------------------>
+		<div class="Bott" id="app">
+			<div class="wrapper clearfix">
+				<div class="zuo fl">
+					<h3>
+						<a href="#"><img src="../images/tx.png" id="touxiang" width="90px" height="90px"/></a>
+						<p class="clearfix"><span class="fl">[{{userName}}]</span><span class="fr" onclick="exitmy()">[退出登录]</span></p>
+					</h3>
+					<div>
+						<h4>我的交易</h4>
+						<ul>
+							<li><a href="start.html">我的收藏</a></li>
+							<li><a href="myorderq.html">我的订单</a></li>
+							<li><a href="mysell.html">我售出的</a></li>
+						</ul>
+						<h4>个人中心</h4>
+						<ul>
+							<li><a href="mygxin.html">我的中心</a></li>
+							<li><a href="address.html">地址管理</a></li>
+							<li><a href="sellbook.html">发布书籍</a></li>
+						</ul>
+						<h4>账户管理</h4>
+						<ul>
+							<li class="on"><a href="mygrxx.html">个人信息</a></li>
+							<li><a href="remima.html">修改密码</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="you fl">
+					<h2>个人信息</h2>
+					<div class="gxin">
+						<div class="tx">
+							<a href="#"><img src="../images/tx.png" id="touxiang1" width="110px" height="110px"/>
+								<p id="avatar">修改头像</p>
+							</a>
+						</div>
+						<div class="xx">
+							<h3 class="clearfix"><strong class="fl">基础资料</strong><a href="#" class="fr" id="edit1">编辑</a></h3>
+							<div>昵称：<input v-model="datalist.userName" readonly/> </div>
+							<div>真实姓名：<input v-model="datalist.userRealName" readonly/></div>
+							<div>出生年月：<input v-model="datalist.userBirthday" readonly/></div>
+							<div>性别：<input v-model="datalist.userSex" readonly/></div>
+							<div>电话：<input v-model="datalist.userTel" readonly/></div>
+							<div>邮箱：<input v-model="datalist.userEmail" readonly/></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--修改头像  ——改为单独上传图片layui-->
+			<div class="avatar">
+				<div class="clearfix">
+					<a href="mygrxx.html" class="fr gb"><img src="../images/icon4.png" /></a>
+				</div>
+				<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+					<legend>更换头像</legend>
+				</fieldset>
+				<div class="layui-upload">
+					<button type="button" class="layui-btn" id="test1">上传图片</button>
+					<div class="layui-upload-list">
+						<img class="layui-upload-img" style="width: 128px;height: 128px;" id="demo1">
+						<p id="demoText" style="width: 128px;"></p>
+					</div>
+					<a href="mygrxx.html"><button class="layui-btn">关闭</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+		<!--遮罩-->
+		<div class="mask"></div>
+		<!--编辑弹框-->
+		<div id="editxx" class="bj layui-form" >
+			<div class="clearfix">
+				<a href="#" class="fr gb"><img src="../images/icon4.png" /></a>
+			</div>
+			<h3>编辑基础资料</h3>
+			<div class="layui-form-item">
+				<label class="layui-form-label">昵称</label>
+				<div class="layui-input-block" style="width: 187px;">
+					<input type="text" name="username" lay-verify="required" v-model="edata.userName" class="layui-input" readonly>{{edata.userName}}
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">真实姓名</label>
+				<div class="layui-input-block" style="width: 187px;">
+					<input type="text" name="title" lay-verify="title" v-model="edata.userReaName" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">出生日期</label>
+				<div class="layui-input-inline">
+					<input type="text" name="date" id="date" lay-verify="date" v-model="edata.userBirthday"  placeholder="yyyy-MM-dd" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">性别</label>
+				<div class="layui-input-block" v-model="edata.userSex">
+					<input type="radio" name="sex" value="男" title="男" checked="">
+					<input type="radio" name="sex" value="女" title="女">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">手机号码</label>
+					<div class="layui-input-inline">
+						<input type="tel" name="phone" v-model="edata.userTel" lay-verify="required|phone" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">邮箱</label>
+					<div class="layui-input-inline">
+						<input type="text" name="email" v-model="edata.userEmail" lay-verify="email" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="bc">
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" onclick="editet()" lay-filter="demo1">保存</button>
+						<a href="mygrxx.html"><button class="layui-btn" >取消</button></a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--右下角导航栏返回顶部-->
+	<div class="gotop">
+		<a onclick="mystart()">
+			<dl>
+				<dt><img src="../images/collection.png"/></dt>
+				<dd>我的<br />收藏</dd>
+			</dl>
+		</a>
+		<a onclick="mysell()" class="dh">
+			<dl>
+				<dt><img src="../images/addbook.png"/></dt>
+				<dd>发布<br />图书</dd>
+			</dl>
+		</a>
+		<a onclick="myinfo()">
+			<dl>
+				<dt><img src="../images/gt3.png"/></dt>
+				<dd>个人<br />中心</dd>
+			</dl>
+		</a>
+		<a href="#" class="toptop" style="display: none">
+			<dl>
+				<dt><img src="../images/gt4.png"/></dt>
+				<dd>返回<br />顶部</dd>
+			</dl>
+		</a>
+	</div>
+		<!--footer-->
+	<div class="footer">
+		<div style="margin-top: 30px;"></div>
+		<p class="dibu">皮卡丘书城&copy;2021<br/> 网站所列数据为测试数据</p>
+	</div>
+	</body>
+	<!--修改头像-->
+	<script>
+		layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form,
+				layer = layui.layer,
+				layedit = layui.layedit,
+				laydate = layui.laydate;
+			//日期
+			laydate.render({
+				elem: '#date'
+			});
+			laydate.render({
+				elem: '#date1'
+			});
+		});
+		layui.use('upload', function() {
+			var $ = layui.jquery;
+			var upload = layui.upload;
+			//普通图片上传
+			var uploadInst = upload.render({
+				elem: '#test1',
+				url: '/singlefile',
+				data:{
+				   userName:localStorage.getItem("userName")
+				},
+				before: function(obj) {
+					//预读本地文件示例，不支持ie8
+					obj.preview(function(index, file, result) {
+						$('#demo1').attr('src', result); //图片链接（base64）
+					});
+                    return layer.msg('上传成功');
+				},
+				done: function(res) {
+					//如果上传失败
+					if(res.code > 0) {
+						return layer.msg('上传失败');
+					}
+					//上传成功
+				},
+				error: function() {
+					//演示失败状态，并实现重传
+					var demoText = $('#demoText');
+					demoText.html('<span style="color: #FF5722;">上传失败</span> <button class="layui-btn layui-btn-xs demo-reload" >重试</button>');
+					demoText.find('.demo-reload').on('click', function() {
+						uploadInst.upload();
+					});
+				}
+			});
+		});
+	</script>
+
+	<script>
+        layui.use(['layer','form'], function() {
+            var layer = layui.layer;
+            var form = layui.form;
+        });
+        $(function(){
+            console.log(localStorage.getItem("userName"))
+            console.log(localStorage.getItem("userName")!==null);
+            console.log(localStorage.getItem("userName")!=="");
+            if(localStorage.getItem("userName")!==null && localStorage.getItem("userName")!==""){
+                $.ajax({
+                    url:"../userinfo",
+                    type:"post",
+                    async: false,//使用同步的方式,true为异步方式
+                    data:{
+                        userName:localStorage.getItem("userName")
+                    },
+                    success:function(data){
+                        v.datalist = data.data;
+                        v.userName=data.data.userName;
+                        ed.edata = data.data;
+                        $("#touxiang").attr("src",data.data.userPic);
+                        $("#touxiang1").attr("src",data.data.userPic);
+                        setTimeout(function () {
+                            layui.form.render();//延迟重新渲染
+                        }, 10);
+                        console.log(data.data);
+                        console.log(ed.edata);
+                    },
+                    fail:function(){
+                        alert(error);
+                    }
+                })
+            }else {
+                location.href ="../login.html"
+            }
+
+        })
+        var v = new Vue({
+            el: "#app",
+            data: {
+                datalist: [],
+				userName:""
+            },
+            methods: {
+
+            }
+        });
+        function editet() {
+            var userDto = ed.edata;
+            console.log(userDto);
+        }
+        var ed = new Vue({
+            el:"editxx",
+            data:{
+                edata:[]
+            },
+            methods: {
+                editet: function() {
+                    //把获取到的编号传到后台，把查到的数据展示到详情页的界面上
+                    /*$.ajax({
+                        url : "../updateuser",
+                        type : "post",
+                        data : {
+                            userDto : this.edata,
+                        },
+                        success : function(data) {
+                            console.log(data.data);
+                        },
+                        error : function(error) {
+                            alert(error);
+                        }
+                    });*/
+                    /*var userDto={
+                        userName:localStorage.getItem("userName"),
+                        receiveId:this.addrid,
+                        receiverName:this.address.receiverName,
+                        receiverTel:this.address.receiverTel,
+                        placeName:this.address.placeName
+                    }*/
+                    var userDto = this.edata;
+                    console.log(userDto);
+                    /*$.ajax({
+                        url: "/../updateuser",
+                        type: "post",
+                        contentType: "application/json",              //发送至服务器的类型
+                        dataType: "json",
+                        data: JSON.stringify(userDto),
+                        async: false,//使用同步的方式,true为异步方式
+                        success: function (data) {
+                           if(data.msg=="ok"){
+                               alert("修改成功")
+                               window.location.reload()
+						   }else {
+                               alert("修改失败");
+						   }
+                        },
+                        fail: function () {
+                            alert(error);
+                        }
+                    })*/
+                },
+            }
+        });
+	</script>
+	<script>
+        function findByBookCategory(v) {
+            console.log($(v).text());
+            localStorage.setItem("bookCategory",$(v).text());
+            console.log(localStorage.getItem("bookCategory"));
+            window.location.href = "../categorybook.html"
+        }
+        function findBookByName() {
+            localStorage.setItem("search",$("#sousuo").val());
+            console.log(localStorage.getItem("search"));
+            window.location.href = "../search.html";
+        }
+        function myinfo() {
+            if (localStorage.getItem("userName") !== null) {
+                window.location.href = "mygxin.html";
+            } else {
+                alert("您还没有登录")
+                window.location.href = "../login.html";
+            }
+        }
+        function mysell() {
+            if (localStorage.getItem("userName") !== null) {
+                window.location.href = "sellbook.html";
+            } else {
+                alert("您还没有登录")
+                window.location.href = "../login.html";
+            }
+        }
+        function mystart() {
+            if (localStorage.getItem("userName") !== null) {
+                window.location.href = "start.html";
+            } else {
+                alert("您还没有登录")
+                window.location.href = "../login.html";
+            }
+        }
+        function exitmy() {
+            localStorage.removeItem('userName')
+            location.href="../login.html"
+        }
+	</script>
+</html>

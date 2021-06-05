@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>发布书籍</title>
+    <link rel="stylesheet" href="../js/layui/css/layui.css" media="all">
+    <script src="../js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/layui/layui.js" charset="utf-8"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div style="width: 50%; margin: auto;" id="app" class="layui-form">
+    <fieldset class="layui-elem-field" style="margin-top: 50px;">
+        <legend>发布图书</legend>
+        <div class="layui-form-item" style="margin-top: 40px;">
+            <label class="layui-form-label">标题：</label>
+            <div class="layui-input-block" style="width: 80%;">
+                <input type="text" id="bookname" name="title" lay-verify="title" autocomplete="off" placeholder="标题 种类书名都是买家喜欢搜索的" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text" style="margin-top: 20px;">
+            <label class="layui-form-label" style="margin: auto;">简介:</label>
+            <div class="layui-input-block" style="width: 80%;">
+                <textarea id="booksynopsis" placeholder="描述图书转手原因，破损程度等" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px;">
+            <label class="layui-form-label">价格：</label>
+            <div class="layui-input-block" style="width: 80%;">
+                <input type="text" id="bookprice" name="title" lay-verify="title" autocomplete="off" placeholder="图书价格" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form" style="margin-top: 20px;">
+            <label class="layui-form-label">类别：</label>
+            <div class="layui-input-inline">
+                <select id="bookcategory" name="interest" lay-filter="bumen">
+                    <option value="">请选择</option>
+                    <option v-for="item in bookCategory" v-bind:value="item.bookCategoryId">{{item.bookCategoryName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form" style="margin-top: 20px;">
+            <label class="layui-form-label">上传图片：</label>
+            <div class="layui-input-block" style="width: 80%;">
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn layui-btn-normal" id="testList">选择图片</button>
+                    <div class="layui-upload-list">
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>图片</th>
+                                <th>大小</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="demoList"></tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+                    <button type="button" class="layui-btn" >取消上传</button>
+                </div>
+            </div>
+            <!--<div class="layui-form-item" style="margin-top: 20px;">-->
+            <!--<div class="layui-input-block" style="width: 80%;margin-left: 250px;margin-bottom: 40px;">-->
+            <!--<a href="mygxin.html"><button class="layui-btn layui-btn-primary">取消发布</button></a>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+    </fieldset>
+</div>
+</body>
+<script>
+    $(function(){
+        $.ajax({
+            url:"../findbookcategory",
+            type:"get",
+            async:false,
+            data:{
+            },
+            success:function(data){
+                v.bookCategory=data.data;
+                console.log(data.data[0].bookCategoryName);
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    })
+    var v = new Vue({
+        el: "#app",
+        data: {
+            bookCategory:[]
+        },
+        methods: {
+        }
+    })
+
+</script>
+
+<script>
+    layui.use(['form', 'layer'], function() {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        var layer = layui.layer
+        //			form.render();
+    });
+
+    layui.use('upload', function() {
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        //多文件列表示例
+        var demoListView = $('#demoList'),
+            uploadListIns = upload.render({
+                elem: '#testList',
+                url: '../morefile',
+                accept: 'file',
+                multiple: true,
+                auto: false,
+                data:{
+                    userName:localStorage.getItem("userName"),
+                    bookName: function(){
+                        return $('#bookname').val();
+                    },//图书名字
+                    bookSynopsis:function(){
+                        return $('#booksynopsis').val();
+                    },//图书简介
+                    bookPrice:function(){
+                        return $('#bookprice').val();
+                    },//图书价格
+                    bookCategoryId:function(){
+                        return $("#bookcategory option:selected").val();
+                    },//图书类别
+                },
+                bindAction: '#testListAction',
+                choose: function(obj) {
+                    var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                    //读取本地文件
+                    obj.preview(function(index, file, result) {
+                        var tr = $(['<tr id="upload-' + index + '">', '<td> <img src="' + result + '" alt="' + file.name + '" class="layui-upload-img" style="margin-right: 10px"> </td>', '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>', '<td>等待上传</td>', '<td>', '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>', '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>', '</td>', '</tr>'].join(''));
+
+                        //单个重传
+                        tr.find('.demo-reload').on('click', function() {
+                            obj.upload(index, file);
+                        });
+
+                        //删除
+                        tr.find('.demo-delete').on('click', function() {
+                            delete files[index]; //删除对应的文件
+                            tr.remove();
+                            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        });
+                        demoListView.append(tr);
+                    });
+                },
+                done: function(res, index, upload) {
+                    if(res.code == 0) { //上传成功
+                        var tr = demoListView.find('tr#upload-' + index),
+                            tds = tr.children();
+                        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                        tds.eq(3).html(''); //清空操作
+                        return delete this.files[index]; //删除文件队列已经上传成功的文件
+                    }
+                    this.error(index, upload);
+                },
+                error: function(index, upload) {
+                    var tr = demoListView.find('tr#upload-' + index),
+                        tds = tr.children();
+                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(3).html(''); //清空操作
+                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                    // var tr = demoListView.find('tr#upload-' + index),
+                    //     tds = tr.children();
+                    // tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                    // tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                }
+            });
+    });
+</script>
+</html>

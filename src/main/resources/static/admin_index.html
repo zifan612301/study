@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>皮卡丘后台管理系统</title>
+		<link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="css/global.css" media="all">
+		<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
+		<script src="js/vue.min.js"></script>
+		<script type="text/javascript" src="plugins/layui/layui.js"></script>
+		<script src="js/index.js"></script>
+		<script src="js/jquery1.10.2.min.js"></script>
+		<style>
+			.active1 {display: none;}
+			.active2 {background-color: #1AA094;}
+			[v-cloak] {display: none;}
+		</style>
+	</head>
+
+	<body>
+		<div  class="layui-layout layui-layout-admin" id="app">
+			<!--主页面头部-->
+			<div class="layui-header header header-demo">
+				<div class="layui-main">
+					<!--头部左边-->
+					<div class="admin-login-box">
+						<a class="logo" style="left: 0;" href="#"> <span style="font-size: 20px;">皮卡丘书城后台管理</span></a>
+						<!--导航栏开关-->
+						<div class="admin-side-toggle">
+							<i class="fa fa-bars" aria-hidden="true"></i>
+						</div>
+					</div>
+					<!--导航栏右侧-->
+					<ul class="layui-nav admin-header-item">
+						<!--当前天数-->
+						<!--<li class="layui-nav-item"><span>XXXX年XX月XX日星期X</span> </li>-->
+						<li class="layui-nav-item" >
+							<a href="javascript:;" class="admin-header-user">
+								<img src="../picture/user/default.jpg" id="touxiang" /><span>{{userName}}</span>
+							</a>
+							<dl class="layui-nav-child">
+								<dd id="lock">
+									<a href="javascript:;"> <i class="fa fa-lock" aria-hidden="true" style="padding-right: 3px;padding-left: 1px;"></i> 锁屏 (Alt+L)
+									</a>
+								</dd>
+								<dd>
+									<a href="login.html"><i class="fa fa-sign-out" aria-hidden="true" onclick="adminexit()"></i>退出登录</a>
+								</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--左侧导航栏-->
+			<div>
+				<div class="layui-side layui-bg-black" id="admin-side">
+					<div class="layui-side-scroll" id="admin-navbar-side" lay-filter="side">
+						<ul class="layui-nav layui-nav-tree">
+							<!---->
+							<li class="layui-nav-item layui-nav-itemed">
+								<a href="javascript:;">用户管理</a>
+								<dl class="layui-nav-child">
+									<dd>
+										<a v-on:click="Add('会员管理','admin/user.html')">会员管理</a>
+									</dd>
+								</dl>
+								<dl class="layui-nav-child">
+									<dd>
+										<a v-on:click="Add('管理员管理','admin/adminuser.html')">管理员管理</a>
+									</dd>
+								</dl>
+								<!--<dl class="layui-nav-child">
+									<dd>
+										<a v-on:click="Add('员工离职管理','employee/empleave.html')">员工离职管理</a>
+									</dd>
+								</dl>-->
+							</li>
+							<!--部门管理-->
+							<li class="layui-nav-item">
+								<a href="javascript:;">图书管理</a>
+								<dl class="layui-nav-child">
+									<dd>
+										<a v-on:click="Add('添加图书','admin/addbook.html')">添加图书</a>
+									</dd>
+								</dl>
+								<dl class="layui-nav-child">
+									<dd>
+										<a v-on:click="Add('图书管理','admin/book.html')">图书管理</a>
+									</dd>
+								</dl>
+							</li>
+							<li class="layui-nav-item ">
+								<a href="javascript:;">留言管理</a>
+								<dl class="layui-nav-child">
+									<dd>
+										<a v-on:click="Add('留言信息管理','admin/leave_word.html')">留言信息管理</a>
+									</dd>
+								</dl>
+							</li>
+							<li class="layui-nav-item">
+								<a href="javascript:;">系统管理</a>
+								<dl class="layui-nav-child">
+									<dd>
+										<a v-on:click="Add('交易地点管理','admin/place.html')">交易地点管理</a>
+									</dd>
+									<dd>
+										<a v-on:click="Add('图书类别管理','admin/bookcategory.html')">图书类别管理</a>
+									</dd>
+								</dl>
+							</li>
+							<li class="layui-nav-item">
+								<a href="javascript:;">个人中心</a>
+								<dl class="layui-nav-child">
+
+									<dd>
+										<a v-on:click="Add('我的详情','admin/admindetail.html')">我的详情</a>
+									</dd>
+									<dd>
+										<a v-on:click="Add('修改密码','admin/change_password.html')">修改密码</a>
+									</dd>
+								</dl>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+				<!--页面-->
+				<div class="layui-body" style="bottom: 0;border-left: solid 2px #1AA094;" id="admin-body">
+					<div class="layui-tab admin-nav-card layui-tab-brief" lay-filter="admin-tab">
+						<!--横向导航栏-->
+						<ul class="layui-tab-title" id="tab-title">
+							<li v-for="item,index in datalist" v-bind:class="{active2:item.checked}" v-on:click.stop.prevent="qiehuan(index)"><i class="fa fa-dashboard" aria-hidden="true"></i> <cite>
+								{{item.nav}} <i
+								class="layui-icon layui-unselect layui-tab-close"><img
+									src="images/cha.png" v-on:click.stop="removeit(index)" /></i>
+						</cite></li>
+						</ul>
+						<!--显示的主页面-->
+						<div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;" id="tab-title1">
+							<div v-for="item1 in datalist" v-bind:class="{active1:!item1.checked}">
+								<iframe v-bind:src="item1.main1"  style="min-height: 900px;width: 100%;" frameborder="0"></iframe>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--底部-->
+			<div class="layui-footer footer footer-demo" id="admin-footer">
+				<div class="layui-main">
+					<p>
+						2021 &copy;
+						<a href="#">Pikachu.book.cn</a> 皮卡丘书城后台管理系统
+					</p>
+				</div>
+			</div>
+			<div class="site-tree-mobile layui-hide">
+				<i class="layui-icon">&#xe602;&#xe617;</i>
+			</div>
+			<div class="site-mobile-shade"></div>
+		</div>
+	</body>
+	<!--锁屏模板 start-->
+	<script type="text/template" id="lock-temp">
+		<div class="admin-header-lock" id="lock-box">
+			<div class="admin-header-lock-img">
+				<img src="images/0.jpg" />
+			</div>
+			<div class="admin-header-lock-name" id="lockUserName">beginner</div>
+			<input type="text" class="admin-header-lock-input" value="输入密码解锁.." name="lockPwd" id="lockPwd" />
+			<button class="layui-btn layui-btn-small" id="unlock">解锁</button>
+		</div>
+	</script>
+	<!--锁屏模板 end -->
+	<script>
+		/*拦截器*/
+		var tid = localStorage.getItem("tid");
+//		if (tid != null) {
+//		} else {
+//			window.location.href = "index.html";
+//		}
+        $(function () {
+            console.log(localStorage.getItem("userName"))
+            if (localStorage.getItem("userName") !== null && localStorage.getItem("userName") !== "") {
+                $.ajax({
+                    url: "../userinfo",
+                    type: "post",
+                    async: false,//使用同步的方式,true为异步方式
+                    data: {
+                        userName: localStorage.getItem("userName")
+                    },
+                    success: function (data) {
+                        v.userName = data.data.userName;
+                        $("#touxiang").attr("src", data.data.userPic);
+                    },
+                    fail: function () {
+                        alert(error);
+                    }
+                })
+            }else {
+                // alert("您还没有登录")
+                // window.location.href = "../login.html";
+			}
+        })
+		var v = new Vue({
+			el: "#app",
+			data: {
+				datalist: [],
+				indext: 0,
+                userName:""
+			},
+			methods: {
+                /*模块的添加*/
+                Add: function(nav, main1) {
+                    if(this.datalist.filter(item => item.nav == nav).length == 0) {
+                        var obj = {
+                            nav: nav,
+                            main1: main1,
+                            checked: true
+                        };
+                        this.datalist.forEach(item => item.checked = false);
+                        this.datalist.push(obj);
+                        this.indext = this.datalist.length - 1;
+                    } else {
+                        this.datalist.forEach(function(item, index) {
+                            if(item.nav == nav) {
+                                vue.qiehuan(index)
+                            }
+                        })
+                    }
+                },
+                /*模块之间的切换*/
+                qiehuan: function(i) {
+                    this.datalist.forEach(item => item.checked = false);
+                    this.datalist[i].checked = true;
+                    this.indext = i;
+                },
+                /*模块的移除*/
+                removeit: function(i) {
+                    if(this.datalist.length > 0 && this.indext == i) {
+                        this.datalist.splice(i, 1);
+                        if(this.datalist.length != 0) {
+                            this.qiehuan(i - 1);
+                        }
+                    } else if(this.datalist.length > 0) {
+                        this.datalist.splice(i, 1);
+                    }
+                }
+			}
+		})
+        function adminexit() {
+            localStorage.removeItem('userName')
+            location.href="../login.html"
+        }
+	</script>
+</html>

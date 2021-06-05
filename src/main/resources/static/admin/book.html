@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+    <link rel="stylesheet" href="../js/layui/css/layui.css"  media="all">
+    <script src="../js/layui/layui.js" charset="utf-8"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <!--导航栏增删改用-->
+    <blockquote class="layui-elem-quote">
+        <table class="layui-form">
+            <tr>
+                <td>&nbsp;&nbsp;
+                    <button type="button" class="layui-btn layui-btn-primary">图书名字：</button>
+                </td>
+                <td>
+                    <input type="text" id="findbookname" name="title" placeholder="请输入内容" autocomplete="off" class="layui-input" style="width: 200px;">
+                </td>
+                <td>&nbsp;&nbsp;
+                    <button type="button" class="layui-btn" v-on:click="find()">查询</button>
+                </td>
+            </tr>
+        </table>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>留言列表</legend>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>图书标题</th>
+                <th>图书主图片</th>
+                <th>图书价格</th>
+                <th>图书主人</th>
+                <th>图书状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(item,index) in datalist">
+                <td>{{index+1}}</td>
+                <td>{{item.bookName}}</td>
+                <td><img :src="item.bookPicture" style="height: 90px;width: 90px"/></td>
+                <td>{{item.bookPrice}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.bookStatus}}</td>
+                <td style="width: 400px;">
+                    <!--<button class="layui-btn layui-btn-normal"><img src="../images/sousuo.png"/>&nbsp;浏览</button>-->
+                    <!--<button class="layui-btn layui-btn-normal" v-on:click="editlb(index)">
+                        <img src="../img/edit.png"/>&nbsp;编辑
+                    </button>-->
+                    <button v-if="item.bookStatus=='正常'" class="layui-btn layui-btn-danger" v-on:click="delbook(index)">
+                        <img src="../img/delete.png"/>&nbsp;下架图书
+                    </button>
+                    <button v-else class="layui-btn" v-on:click="addbook(index)">
+                        <img src="../img/edit.png"/>&nbsp;上架图书
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page" style="margin-left: 28%"></div>
+    </fieldset>
+</div>
+</body>
+<script>
+    layui.use(['laypage', 'layer','form'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer
+            ,form = layui.form
+        //分页显示
+        laypage.render({
+            elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+            ,count: v.rowCount//数据总条数
+            ,limit: 3//每页显示条数
+            ,theme: '#ff5722'
+            ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+            ,jump: function(obj){
+                bookListPage(obj.curr,obj.limit);
+                v.size = obj.limit;
+            }
+        });
+    });
+</script>
+<script>
+    $(function(){
+        bookListPage(1,3);
+    })
+    //查询数据的请求，
+    function bookListPage(pageIndex,pageSize) {
+        $.ajax({
+            url:"/../bookadminlist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                pageIndex:pageIndex
+                ,pageSize:pageSize
+            },
+            success:function(data){
+                v.datalist = data.data.list;
+                console.log(v.datalist)
+                v.rowCount = data.data.rowCount;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+
+    function findbybookname(pageIndex,pageSize) {
+        $.ajax({
+            url:"/../findbooknameadminlist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                bookName:$("#findbookname").val()
+                ,pageIndex:pageIndex
+                ,pageSize:pageSize
+            },
+            success:function(data){
+                v.datalist = data.data.list;
+                v.rowCount = data.data.rowCount;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    var v = new Vue({
+        el: "#app",
+        data: {
+            datalist: []
+            ,rowCount:1
+        },
+        methods: {
+            find: function () {
+                findbybookname(1,3)
+                layui.use(['laypage'], function(){
+                    var laypage = layui.laypage
+                    //分页显示
+                    laypage.render({
+                        elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+                        ,count: v.rowCount//数据总条数
+                        ,limit: 3//每页显示条数
+                        ,theme: '#FF5722'
+                        ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                        ,jump: function(obj){
+                            findbybookname(obj.curr,obj.limit);
+                            v.size = obj.limit;
+                        }
+                    });
+                });
+            },
+            delbook: function (index) {
+                if (confirm("确定要下架图书吗")){
+                    $.ajax({
+                        url:"/../deletebook",
+                        type:"delete",
+                        async: false,//使用同步的方式,true为异步方式
+                        data:{
+                            bookId:this.datalist[index].bookId
+                        },
+                        success:function(data){
+                            window.location.reload();
+                        },
+                        fail:function(){
+                            alert(error);
+                        }
+                    })
+                }
+            },
+            addbook: function (index) {
+                if (confirm("确定要上架图书吗")){
+                    $.ajax({
+                        url:"/../addbook",
+                        type:"get",
+                        async: false,//使用同步的方式,true为异步方式
+                        data:{
+                            bookId:this.datalist[index].bookId
+                        },
+                        success:function(data){
+                            window.location.reload();
+                        },
+                        fail:function(){
+                            alert(error);
+                        }
+                    })
+                }
+            },
+        },
+    });
+</script>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8" />
+	<title>我售出的</title>
+	<link rel="stylesheet" type="text/css" href="../css/public.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/myorder.css" />
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/user.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<!------------------------------head------------------------------>
+<div class="head">
+	<div class="wrapper clearfix">
+		<div class="clearfix" id="top">
+			<h1 class="fl"><a href="index.html"><img src="../images/logo.png" style="margin-top: -20px;"/></a></h1>
+			<div class="fr clearfix" id="top1">
+				<p class="fl">
+					<a href="../login.html" id="login">登录</a>
+					<a href="../reg.html" id="reg">注册</a>
+				</p>
+				<form action="#" method="get" class="fl">
+					<input type="text" placeholder="搜索" />
+					<input type="button" />
+				</form>
+			</div>
+		</div>
+		<ul class="clearfix" id="bott">
+			<li><a href="../index.html">首页</a></li>
+			<li>
+				<a href="../flowerDer.html">考试教育</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a href="../flowerDer.html">公务员考试</a>
+						<a href="../flowerDer.html">英语考试</a>
+						<a href="../flowerDer.html">考研</a>
+						<a href="../flowerDer.html">其他考试</a>
+						<a href="../flowerDer.html">职称考试</a>
+						<a href="../flowerDer.html">教辅书</a>
+						<a href="../flowerDer.html">工具书</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a href="decoration.html">经济管理</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a href="../flowerDer.html">成功励志</a>
+						<a href="../flowerDer.html">管理</a>
+						<a href="../flowerDer.html">经济金融</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a href="paint.html">文学艺术</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a href="../flowerDer.html">收藏鉴赏</a>
+						<a href="../flowerDer.html">艺术</a>
+						<a href="../flowerDer.html">文学小说</a>
+						<a href="../flowerDer.html">文化历史</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a href="../flowerDer.html">人文社科</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a href="../flowerDer.html">新闻传播</a>
+						<a href="../flowerDer.html">心理</a>
+						<a href="../flowerDer.html">法律</a>
+						<a href="../flowerDer.html">自然科学</a>
+						<a href="../flowerDer.html">社会科学</a>
+						<a href="../flowerDer.html">政治军事</a>
+						<a href="../flowerDer.html">宗教哲学</a>
+						<a href="../flowerDer.html">语言学习</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a href="../flowerDer.html">科学技术</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a href="../flowerDer.html">汽车与交通运输</a>
+						<a href="../flowerDer.html">医学卫生</a>
+						<a href="../flowerDer.html">计算机与网络</a>
+						<a href="../flowerDer.html">科技工程</a>
+						<a href="../flowerDer.html">建筑</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a href="../flowerDer.html">生活休闲</a>
+				<div class="sList2">
+					<div class="clearfix">
+						<a href="../flowerDer.html">生活时尚</a>
+						<a href="../flowerDer.html">家庭育儿</a>
+						<a href="../flowerDer.html">旅游地理</a>
+						<a href="../flowerDer.html">体育保健</a>
+						<a href="../flowerDer.html">少儿</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<!------------------------------idea------------------------------>
+<div class="address mt">
+	<div class="wrapper clearfix">
+		<a href="../index.html" class="fl">首页</a>
+		<span>/</span>
+		<a href="mygxin.html">个人中心</a>
+		<span>/</span>
+		<a href="myorderq.html" class="on">我的订单</a>
+	</div>
+</div>
+
+<!------------------------------Bott------------------------------>
+<div class="Bott" id="app">
+	<div class="wrapper clearfix">
+		<div class="zuo fl">
+			<h3 >
+				<a href="#"><img src="../images/tx.png" id="touxiang" width="90px" height="90px"/></a>
+				<p class="clearfix"><span class="fl">[{{userName}}]</span><span class="fr" onclick="exitmy()">[退出登录]</span></p>
+			</h3>
+			<div>
+				<h4>我的交易</h4>
+				<ul>
+					<li><a href="start.html">我的收藏</a></li>
+					<li><a href="myorderq.html">我的订单</a></li>
+					<li class="on"><a href="mysell.html">我售出的</a></li>
+				</ul>
+				<h4>个人中心</h4>
+				<ul>
+					<li><a href="mygxin.html">我的中心</a></li>
+					<li><a href="address.html">地址管理</a></li>
+					<li><a href="sellbook.html">发布书籍</a></li>
+				</ul>
+				<h4>账户管理</h4>
+				<ul>
+					<li><a href="mygrxx.html">个人信息</a></li>
+					<li><a href="remima.html">修改密码</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="you fl">
+			<div class="my clearfix">
+				<h2 class="fl">我的订单</h2>
+				<a href="#" class="fl">请谨防钓鱼链接或诈骗电话，了解更多&gt;</a>
+			</div>
+			<div class="dlist clearfix">
+				<ul class="fl clearfix" id="wa">
+					<li class="on"><a href="#2">全部有效订单</a></li>
+					<li><a href="#2">待支付</a></li>
+					<li><a href="#2l">待收货</a></li>
+					<li><a href="#2">已关闭</a></li>
+				</ul>
+				<form action="#" method="get" class="fr clearfix">
+					<input type="text" name="" id="" value="" placeholder="请输入商品名称、订单号" />
+					<input type="button" name="" id="" value="" />
+				</form>
+			</div>
+			<div class="dkuang">
+				<p class="one">已收货</p>
+				<div class="word clearfix">
+					<ul class="fl clearfix">
+						<li>2021年5月1日 18:53</li>
+						<li>杨小黄</li>
+						<li>订单号:5160513358520018</li>
+						<li>在线支付</li>
+					</ul>
+					<p class="fr">订单金额：<span>35.00</span>元</p>
+				</div>
+				<div class="shohou clearfix">
+					<a href="#" class="fl"><img src="../img/g1.jpg"/></a>
+					<p class="fl"><a href="#"></a><a href="#">¥99.00×1</a></p>
+					<p class="fr">
+						<a href="myprod.html">待评价</a>
+						<a href="orderxq.html">订单详情</a>
+					</p>
+				</div>
+			</div>
+			<div class="dkuang clearfix deng">
+				<p class="one fl">待收货</p>
+				<div  class="clearfix">
+					<div class="fl vewwl">
+						<a href="#" class="ckwl">查看物流</a>
+						<div class="wuliu">
+							<h4>订单号：18135145615</h4>
+							<ul>
+								<li>
+									<p>已配送签收，已签收。签收人：本人签收</p>
+									<p>2021-05-03 17:30:00</p>
+								</li>
+								<li>
+									<p>校区北段派送员已揽收（投递员姓名：六六六。联系电话：14243452522;</p>
+									<p>2021-05-03 08:50:00</p>
+								</li>
+								<li>
+									<p>卖家已发货</p>
+									<p>2021-05-03 07:20:00</p>
+								</li>
+								<li>以上为最新跟踪信息<a href="#">查看全部</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="word clearfix">
+					<ul class="fl clearfix">
+						<li>2021年5	月1日 18:53</li>
+						<li>杨小黄</li>
+						<li>订单号:5160513358520018</li>
+						<li>在线支付</li>
+					</ul>
+					<p class="fr">订单金额：<span>99.00</span>元</p>
+				</div>
+				<div class="shohou clearfix">
+					<a href="#" class="fl"><img src="../img/g1.jpg"/></a>
+					<p class="fl"><a href="#">断舍离</a><a href="#">¥20.00×1</a></p>
+					<p class="fr">
+						<a href="#">确认收货</a>
+						<a href="orderxq.html">订单详情</a>
+					</p>
+				</div>
+			</div>
+			<div class="dkuang deng">
+				<p class="one">待支付</p>
+				<div class="word clearfix">
+					<ul class="fl clearfix">
+						<li>2021年5月1日 18:53</li>
+						<li>杨小黄</li>
+						<li>订单号:5160513358520018</li>
+						<li>在线支付</li>
+					</ul>
+					<p class="fr">订单金额：<span>99.00</span>元</p>
+				</div>
+				<div class="shohou clearfix">
+					<a href="#" class="fl"><img src="../img/g1.jpg"/></a>
+					<p class="fl"><a href="#">家用创意菜</a><a href="#">¥99.00×1</a></p>
+					<p class="fr">
+						<a href="#">立即支付</a>
+						<a href="orderxq.html">订单详情</a>
+					</p>
+				</div>
+			</div>
+			<div class="dkuang">
+				<p class="one">已关闭</p>
+				<div class="word clearfix">
+					<ul class="fl clearfix">
+						<li>2021年5月1日 18:53</li>
+						<li>杨小黄</li>
+						<li>订单号:5160513358520018</li>
+						<li>在线支付</li>
+					</ul>
+					<p class="fr">订单金额：<span>99.00</span>元</p>
+				</div>
+				<div class="shohou clearfix">
+					<a href="#" class="fl"><img src="../img/g1.jpg"/></a>
+					<p class="fl"><a href="#">家用创意菜</a><a href="#">¥99.00×1</a></p>
+					<p class="fr">
+						<a href="#">交易失败</a>
+						<a href="orderxq.html">订单详情</a>
+					</p>
+				</div>
+			</div>
+			<div class="fenye clearfix">
+				<a href="#"><img src="../img/zuo.jpg"/></a>
+				<a href="#">1</a>
+				<a href="#"><img src="../img/you.jpg"/></a>
+			</div>
+		</div>
+	</div>
+</div>
+<!--右下角导航栏返回顶部-->
+<div class="gotop">
+	<a onclick="mystart()">
+		<dl>
+			<dt><img src="../images/collection.png"/></dt>
+			<dd>我的<br />收藏</dd>
+		</dl>
+	</a>
+	<a onclick="mysell()" class="dh">
+		<dl>
+			<dt><img src="../images/addbook.png"/></dt>
+			<dd>发布<br />图书</dd>
+		</dl>
+	</a>
+	<a onclick="myinfo()">
+		<dl>
+			<dt><img src="../images/gt3.png"/></dt>
+			<dd>个人<br />中心</dd>
+		</dl>
+	</a>
+	<a href="#" class="toptop" style="display: none">
+		<dl>
+			<dt><img src="../images/gt4.png"/></dt>
+			<dd>返回<br />顶部</dd>
+		</dl>
+	</a>
+</div>
+<!--footer-->
+<div class="footer">
+	<div style="margin-top: 30px;"></div>
+	<p class="dibu">皮卡丘书城&copy;2021<br/> 网站所列数据为测试数据</p>
+</div>
+</body>
+<script>
+	var v = new Vue({
+		el: "#app",
+		data: {
+			userName:"",
+			collectionNum:"",
+			orderNum:"",
+			adressNum:"",
+			sellBookNum:""
+		},
+	})
+	$(function () {
+		if(localStorage.getItem("userName")!==null){
+			$.ajax({
+				url:"../userinfo",
+				type:"post",
+				async: false,//使用同步的方式,true为异步方式
+				data:{
+					userName:localStorage.getItem("userName")
+				},
+				success:function(data){
+					v.userName=data.data.userName;
+					$("#touxiang").attr("src",data.data.userPic);
+					$("#touxiang1").attr("src",data.data.userPic);
+				},
+				fail:function(){
+					alert(error);
+				}
+			})
+			$.ajax({
+				url:"../mycount",
+				type:"get",
+				async: false,//使用同步的方式,true为异步方式
+				data:{
+					userName:localStorage.getItem("userName")
+				},
+				success:function(data){
+					console.count(data.data)
+					v.collectionNum=data.data.collectionNum;
+					v.orderNum=data.data.orderNum;
+					v.adressNum=data.data.adressNum;
+					v.sellBookNum=data.data.sellBookNum;
+					console.count(v.count)
+				},
+				fail:function(){
+					alert(error);
+				}
+			})
+		}else {
+			location.href="../login.html";
+		}
+	})
+</script>
+<script>
+	$(function () {
+		if(localStorage.getItem("userName")!==null){
+
+		}else {
+			location.href="../login.html";
+		}
+
+	})
+	function myinfo() {
+		if (localStorage.getItem("userName") !== null) {
+			window.location.href = "mygxin.html";
+		} else {
+			alert("您还没有登录")
+			window.location.href = "../login.html";
+		}
+	}
+	function mysell() {
+		if (localStorage.getItem("userName") !== null) {
+			window.location.href = "sellbook.html";
+		} else {
+			alert("您还没有登录")
+			window.location.href = "../login.html";
+		}
+	}
+	function mystart() {
+		if (localStorage.getItem("userName") !== null) {
+			window.location.href = "start.html";
+		} else {
+			alert("您还没有登录")
+			window.location.href = "../login.html";
+		}
+	}
+	function exitmy() {
+		localStorage.removeItem('userName')
+		location.href="../login.html"
+	}
+</script>
+</html>

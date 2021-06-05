@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html xmlns:v-for="http://www.w3.org/1999/xhtml">
+<head lang="en">
+    <meta charset="utf-8"/>
+    <title>我的收货地址</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/proList.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/mygxin.css"/>
+    <link rel="stylesheet" href="../js/layui-v2.2.5/css/layui.css" media="all">
+    <script src="../js/layui-v2.2.5/layui.js" charset="utf-8"></script>
+    <script src="../js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/pro.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/user.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+</head>
+<body>
+<!------------------------------head------------------------------>
+<div class="head">
+    <div class="wrapper clearfix">
+        <div class="clearfix" id="top">
+            <h1 class="fl"><a href="index.html"><img src="../images/logo.png" style="margin-top: -20px;"/></a></h1>
+            <div class="fr clearfix" id="top1">
+                <p class="fl">
+                    <a href="../login.html" id="login">登录</a>
+                    <a href="../reg.html" id="reg">注册</a>
+                </p>
+                <form action="#" method="get" class="fl">
+                    <input type="text" placeholder="搜索" id="sousuo"/>
+                    <a onclick="findBookByName()"><img class="ss" src="../images/ss.png" /></a>
+                </form>
+                <div class="btn fl clearfix">
+                    <a href="mygxin.html"><img src="../images/grzx.png" /></a>
+                    <a href="start.html"><img src="../images/collection.png" /></a>
+                </div>
+            </div>
+        </div>
+        <ul class="clearfix" id="bott">
+            <li><a href="../index.html">首页</a></li>
+            <li>
+                <a href="#" onclick="findByBookCategory(this)">考试教育</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">公务员考试</a>
+                        <a onclick="findByBookCategory(this)">英语考试</a>
+                        <a onclick="findByBookCategory(this)">考研</a>
+                        <a onclick="findByBookCategory(this)">其他考试</a>
+                        <a onclick="findByBookCategory(this)">职称考试</a>
+                        <a onclick="findByBookCategory(this)">教辅书</a>
+                        <a onclick="findByBookCategory(this)">工具书</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a onclick="findByBookCategory(this)">经济管理</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">成功励志</a>
+                        <a onclick="findByBookCategory(this)">管理</a>
+                        <a onclick="findByBookCategory(this)">经济金融</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a onclick="findByBookCategory(this)">文学艺术</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">收藏鉴赏</a>
+                        <a onclick="findByBookCategory(this)">艺术</a>
+                        <a onclick="findByBookCategory(this)">文学小说</a>
+                        <a onclick="findByBookCategory(this)">文化历史</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a onclick="findByBookCategory(this)">人文社科</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">新闻传播</a>
+                        <a onclick="findByBookCategory(this)">心理</a>
+                        <a onclick="findByBookCategory(this)">法律</a>
+                        <a onclick="findByBookCategory(this)">自然科学</a>
+                        <a onclick="findByBookCategory(this)">社会科学</a>
+                        <a onclick="findByBookCategory(this)">政治军事</a>
+                        <a onclick="findByBookCategory(this)">宗教哲学</a>
+                        <a onclick="findByBookCategory(this)">语言学习</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a onclick="findByBookCategory(this)">科学技术</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">汽车与交通运输</a>
+                        <a onclick="findByBookCategory(this)">医学卫生</a>
+                        <a onclick="findByBookCategory(this)">计算机与网络</a>
+                        <a onclick="findByBookCategory(this)">科技工程</a>
+                        <a onclick="findByBookCategory(this)">建筑</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a onclick="findByBookCategory(this)">生活休闲</a>
+                <div class="sList2">
+                    <div class="clearfix">
+                        <a onclick="findByBookCategory(this)">生活时尚</a>
+                        <a onclick="findByBookCategory(this)">家庭育儿</a>
+                        <a onclick="findByBookCategory(this)">旅游地理</a>
+                        <a onclick="findByBookCategory(this)">体育保健</a>
+                        <a onclick="findByBookCategory(this)">少儿</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!------------------------------idea------------------------------>
+<div class="address mt">
+    <div class="wrapper clearfix">
+        <a href="../index.html" class="fl">首页</a>
+        <span>/</span>
+        <a href="mygxin.html">个人中心</a>
+        <span>/</span>
+        <a href="address.html" class="on">地址管理</a>
+    </div>
+</div>
+
+<!------------------------------Bott------------------------------>
+<div class="Bott" id="app">
+    <div class="wrapper clearfix">
+        <div class="zuo fl">
+            <h3>
+                <a href="#"><img src="../images/tx.png" id="touxiang" width="90px" height="90px"/></a>
+                <p class="clearfix"><span class="fl">[{{userName}}]</span><span class="fr" onclick="exitmy()">[退出登录]</span></p>
+            </h3>
+            <div>
+                <h4>我的交易</h4>
+                <ul>
+                    <li><a href="start.html">我的收藏</a></li>
+                    <li><a href="myorderq.html">我的订单</a></li>
+                    <li><a href="mysell.html">我售出的</a></li>
+                </ul>
+                <h4>个人中心</h4>
+                <ul>
+                    <li><a href="mygxin.html">我的中心</a></li>
+                    <li class="on"><a href="address.html">地址管理</a></li>
+                    <li><a href="sellbook.html">发布书籍</a></li>
+                </ul>
+                <h4>账户管理</h4>
+                <ul>
+                    <li><a href="mygrxx.html">个人信息</a></li>
+                    <li><a href="remima.html">修改密码</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="you fl">
+            <div class="order cart mt">
+                <!--<h2>收货地址</h2>-->
+                <div class="orderCon wrapper clearfix" style="margin-top: -60px">
+                    <div class="orderL fl">
+                        <!--------h3---------------->
+                        <h3><span>收货地址</span><a href="#" class="fr add" @click="addplace()">新增地址</a></h3>
+                        <!--------addres---------------->
+                        <div class="addres clearfix">
+                            <div class="addre fl" v-for = "item,index in datalist">
+                                <div class="tit clearfix">
+                                    <p class="fl">{{item.receiverName}}
+                                        <!--<span v-if="item.isDefault == 1" class="default">[默认地址]</span>-->
+                                    </p>
+                                    <p class="fr">
+                                        <a href="#" @click="del(index)">删除</a>
+                                        <span>|</span>
+                                        <a href="#" class="edit" @click="editaddr(index)">编辑</a>
+                                    </p>
+                                </div>
+                                <div class="addCon">
+                                    <p>{{item.placeName}}</p>
+                                    <p>{{item.receiverTel}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--编辑弹框-->
+<!--遮罩-->
+<div class="mask"></div>
+<!--添加地址-->
+<div class="adddz" id="addplace">
+    <form  class="layui-form">
+        <input type="text" placeholder="姓名" class="on" v-model="address.receiverName" required/><span id="addrname" style="display: none;color: red">用户名必须填写</span>
+        <input type="text" placeholder="手机号" id="tel" v-model="address.receiverTel" required/><span id="addrtel" style="display: none;color: red">电话不可为空</span>
+        <div class="city">
+            <select id="adressname" v-model="address.placeName" required>
+                <option :value="item.placeName" :id="item.placeTransactionId"  v-for="item in place">{{item.placeName}}</option>
+            </select>
+        </div>
+        <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">设为默认地址</label>-->
+            <!--<div class="layui-input-block">-->
+                <!--<input type="checkbox" name="close" lay-filter="switchTest" lay-skin="switch" lay-text="ON|OFF">-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="bc">
+            <input type="button" value="添加" @click="add()"/>
+            <input type="button" value="取消" @click="close"/>
+        </div>
+    </form>
+</div>
+<!--编辑地址-->
+<div class="readd" id="editaddr">
+    <form class="layui-form">
+        <input type="text" class="on" value="六六六" v-model="address.receiverName" required/><span id="addrname" style="display: none;color: red">用户名必须填写</span>
+        <input type="text" value="157****0022" v-model="address.receiverTel" required/><span id="addrtel" style="display: none;color: red">电话不可为空</span>
+        <div class="city">
+            <select v-model="address.placeName">
+                <option :value="item.placeName" :id="item.placeTransactionId"  v-for="item in place">{{item.placeName}}</option>
+            </select>
+        </div>
+        <div class="bc">
+            <input type="button" value="保存" @click="save()"/>
+            <input type="button" value="取消" @click="close()"/>
+        </div>
+    </form>
+</div>
+<!--右下角导航栏返回顶部-->
+<div class="gotop">
+    <a onclick="mystart()">
+        <dl>
+            <dt><img src="../images/collection.png"/></dt>
+            <dd>我的<br />收藏</dd>
+        </dl>
+    </a>
+    <a onclick="mysell()" class="dh">
+        <dl>
+            <dt><img src="../images/addbook.png"/></dt>
+            <dd>发布<br />图书</dd>
+        </dl>
+    </a>
+    <a onclick="myinfo()">
+        <dl>
+            <dt><img src="../images/gt3.png"/></dt>
+            <dd>个人<br />中心</dd>
+        </dl>
+    </a>
+    <a href="#" class="toptop" style="display: none">
+        <dl>
+            <dt><img src="../images/gt4.png"/></dt>
+            <dd>返回<br />顶部</dd>
+        </dl>
+    </a>
+</div>
+<!--footer-->
+<div class="footer">
+    <div style="margin-top: 30px;"></div>
+    <p class="dibu">皮卡丘书城&copy;2021<br/> 网站所列数据为测试数据</p>
+</div>
+<script>
+    function findByBookCategory(v) {
+        console.log($(v).text());
+        localStorage.setItem("bookCategory",$(v).text());
+        console.log(localStorage.getItem("bookCategory"));
+        window.location.href = "../categorybook.html"
+    }
+    function findBookByName() {
+        localStorage.setItem("search",$("#sousuo").val());
+        console.log(localStorage.getItem("search"));
+        window.location.href = "../search.html";
+    }
+    function myinfo() {
+        if (localStorage.getItem("userName") !== null) {
+            window.location.href = "mygxin.html";
+        } else {
+            alert("您还没有登录")
+            window.location.href = "../login.html";
+        }
+    }
+    function mysell() {
+        if (localStorage.getItem("userName") !== null) {
+            window.location.href = "sellbook.html";
+        } else {
+            alert("您还没有登录")
+            window.location.href = "../login.html";
+        }
+    }
+    function mystart() {
+        if (localStorage.getItem("userName") !== null) {
+            window.location.href = "start.html";
+        } else {
+            alert("您还没有登录")
+            window.location.href = "../login.html";
+        }
+    }
+    function exitmy() {
+        localStorage.removeItem('userName')
+        location.href="../login.html"
+    }
+</script>
+<script>
+    $(".add").click(function(){
+        $(".mask").show();
+        $(".adddz").show();
+    });
+    layui.use(['form'], function(){
+        var form = layui.form
+    })
+    $(function(){
+        if(localStorage.getItem("userName")!== null&&localStorage.getItem("userName")!==""){
+            $.ajax({
+                url:"/../getreceiveadress",
+                type:"get",
+                async: false,//使用同步的方式,true为异步方式
+                data:{
+                    userName:localStorage.getItem("userName")
+                },
+                success:function(data){
+                    v.datalist = data.data;
+                },
+                fail:function(){
+                    alert(error);
+                }
+            })
+            $.ajax({
+                url:"../userinfo",
+                type:"post",
+                async: false,//使用同步的方式,true为异步方式
+                data:{
+                    userName:localStorage.getItem("userName")
+                },
+                success:function(data){
+                    v.userName=data.data.userName;
+                    console.log(v.userName);
+                    $("#touxiang").attr("src",data.data.userPic);
+                },
+                fail:function(){
+                    alert(error);
+                }
+            })
+        }else {
+            location.href ="../login.html"
+        }
+
+    })
+    function findPlace(){
+        $.ajax({
+            url:"/../placelist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+            },
+            success:function(data){
+                addplace.place = data.data;
+                editdz.place = data.data;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    var v = new Vue({
+        el: "#app",
+        data: {
+            datalist: [],
+            userName:""
+        },
+        methods: {
+            del:function (index) {
+                var msg= confirm("您真的要删除吗！");
+                if(msg){
+                    $.ajax({
+                        url:"/../deleteaddress",
+                        type:"delete",
+                        async: false,//使用同步的方式,true为异步方式
+                        data:{
+                            id:this.datalist[index].receiveId,//localStorage.getItem("userName")
+                        },
+                        success:function(data){
+                            window.location.reload()
+                        },
+                        fail:function(){
+                            alert(error);
+                        }
+                    })
+                }
+
+            },
+            editaddr:function (index) {
+                findPlace();
+                setTimeout(function () {
+                    layui.form.render();//延迟重新渲染
+                },10);
+                $(".mask").show();
+                $(".readd").show();
+                editdz.address = this.datalist[index];
+                editdz.addrid = this.datalist[index].receiveId;
+
+            },
+            addplace:function () {
+                findPlace();
+                setTimeout(function () {
+                    layui.form.render();//延迟重新渲染
+                },10);
+                console.log(addplace.place)
+                $(".mask").show();
+                $(".adddz").show();
+            }
+        }
+    });
+    //新增地址
+    var addplace = new Vue({
+        el:"#addplace",
+        data:{
+            place:[],
+            address:[]
+        },
+        methods:{
+            add:function () {
+                this.address.placeName=$("select option:checked").text();
+                console.log(this.address)
+                if(this.address.receiverName==null||this.address.receiverName.length==0){
+                    $("#addrname").show();
+                }else {
+                    $("#addrname").hide();
+                }
+                if(this.address.receiverTel==null||this.address.receiverTel.length==0){
+                    $("#addrtel").show();
+                }else{
+                    $("#addrtel").hide();
+                }
+                if((this.address.receiverName!=null||this.address.receiverName.length!=0)&&
+                    (this.address.receiverTel!=null||this.address.receiverTel.length!=0)){
+                    var dto={
+                        userName:localStorage.getItem("userName"),
+                        receiverName:this.address.receiverName,
+                        receiverTel:this.address.receiverTel,
+                        placeName:this.address.placeName
+                    }
+                    $.ajax({
+                        url:"/../addreceiveadress",
+                        type:"post",
+                        contentType : "application/json",              //发送至服务器的类型
+                        dataType : "json",
+                        data:JSON.stringify(dto),
+                        async: false,//使用同步的方式,true为异步方式
+                        success:function(data){
+                            $(".mask").hide();
+                            $("#addplace").hide();
+                            window.location.reload()
+                        },
+                        fail:function(){
+                            alert(error);
+                        }
+                    })
+                }
+            },
+            close:function () {
+                $(".mask").hide();
+                $("#addplace").hide();
+                window.location.reload()
+            }
+        }
+    });
+    //编辑地址
+    var editdz = new Vue({
+        el:"#editaddr",
+        data:{
+            address:[],
+            place:[],
+            addrid:0,
+        },
+        methods:{
+            save:function () {
+                this.address.placeName=$("select option:checked").text();
+                var dto={
+                    userName:localStorage.getItem("userName"),
+                    receiveId:this.addrid,
+                    receiverName:this.address.receiverName,
+                    receiverTel:this.address.receiverTel,
+                    placeName:this.address.placeName
+                }
+                if(this.address.receiverName==null||this.address.receiverName.length==0){
+                    $("#addrname").show();
+                }else {
+                    $("#addrname").hide();
+                }
+                if(this.address.receiverTel==null||this.address.receiverTel.length==0){
+                    $("#addrtel").show();
+                }else{
+                    $("#addrtel").hide();
+                }
+                if((this.address.receiverName!=null||this.address.receiverName.length!=0)&&
+                    (this.address.receiverTel!=null||this.address.receiverTel.length!=0)) {
+                    $.ajax({
+                        url: "/../editreceiveadress",
+                        type: "post",
+                        contentType: "application/json",              //发送至服务器的类型
+                        dataType: "json",
+                        data: JSON.stringify(dto),
+                        async: false,//使用同步的方式,true为异步方式
+                        success: function (data) {
+                            $(".mask").hide();
+                            $("#editaddr").hide();
+                            window.location.reload()
+                        },
+                        fail: function () {
+                            alert(error);
+                        }
+                    })
+                }
+            },
+            close:function () {
+                $(".mask").hide();
+                $("#editaddr").hide();
+                window.location.reload()
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>图书类别管理</title>
+		<link rel="stylesheet" href="../js/layui/css/layui.css"  media="all">
+		<script src="../js/layui/layui.js" charset="utf-8"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+	</head>
+
+	<body>
+		<div id="app">
+			<!--导航栏增删改用-->
+			<blockquote class="layui-elem-quote">
+				<table class="layui-form">
+					<tr>
+						<td>&nbsp;&nbsp;
+							<button type="button" class="layui-btn layui-btn-primary">图书类别：</button>
+						</td>
+						<td><input type="text" id="findcategoryname" name="title" placeholder="请输入内容" autocomplete="off" class="layui-input" style="width: 200px;"></td>
+						<td>
+							<td>&nbsp;&nbsp;
+								<button type="button" class="layui-btn" v-on:click="find()">查询</button>
+							</td>
+							<td>&nbsp;&nbsp;
+								<button type="button" class="layui-btn" v-on:click="addlb()">添加</button>
+							</td>
+					</tr>
+				</table>
+			</blockquote>
+			<fieldset class="layui-elem-field">
+				<legend>图书类别列表</legend>
+				<table class="layui-table">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>图书类别</th>
+							<th>图书父类别</th>
+							<th>类别级别</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="item,index in datalist">
+							<td>{{index+1}}</td>
+							<td>{{item.bookCategoryName}}</td>
+							<td>{{item.bookCategoryFatherName}}</td>
+							<td>{{item.booklevel}}</td>
+							<td style="width: 400px;">
+								<!--<button class="layui-btn layui-btn-normal"><img src="../images/sousuo.png"/>&nbsp;浏览</button>-->
+								<button class="layui-btn layui-btn-normal" v-on:click="editlb(index)">
+									<img src="../img/edit.png"/>&nbsp;编辑
+								</button>
+								<button class="layui-btn layui-btn-danger" v-on:click="dellb(index)">
+									<img src="../img/delete.png"/>&nbsp;删除
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="page" style="margin-left: 28%"></div>
+			</fieldset>
+
+		</div>
+		<div id="editlb" style="display: none;">
+			<table class="layui-table layui-form" lay-skin="nob">
+				<tr>
+					<td>图书类别：</td>
+					<td><input type="text" id="editcategoryname" class="layui-input" v-model="bookCategory.bookCategoryName"/></td>
+				</tr>
+				<tr>
+					<td>图书父类别：</td>
+					<td>
+						<div class="city">
+							<select id="selectcategory" v-model="bookCategory.bookCategoryFatherName"  required>
+								<option value="0">无父类别</option>
+								<option  :id="item.bookCategoryId"  v-for="item in category">{{item.bookCategoryName}}</option>
+							</select>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td style="margin: auto">
+						<button class="layui-btn layui-btn-primary" @click="save">保存</button>
+					</td>
+					<td style="margin: auto">
+						<button class="layui-btn layui-btn-primary" @click="close">关闭</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="addlb" style="display: none;">
+			<table class="layui-table layui-form" lay-skin="nob">
+				<tr>
+					<td>图书类别：</td>
+					<td><input type="text" id="addcategoryname" class="layui-input" placeholder="图书类别名称" /></td><span id="lbname" style="display: none;color: red">图书类别</span>
+				</tr>
+				<tr>
+					<td>图书父类别：</td>
+					<td>
+						<div class="city">
+							<select  required>
+								<option value="0">无父类别</option>
+								<option  :id="item.bookCategoryId"  v-for="item in category">{{item.bookCategoryName}}</option>
+							</select>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td style="margin: auto">
+						<button class="layui-btn layui-btn-primary " @click="add">添加</button>
+					</td>
+					<td style="margin: auto">
+						<button class="layui-btn layui-btn-primary" @click="close">关闭</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+	<script>
+        layui.use(['laypage', 'layer','form'], function(){
+            var laypage = layui.laypage
+                ,layer = layui.layer
+                ,form = layui.form
+            //分页显示
+            laypage.render({
+                elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+                ,count: v.rowCount//数据总条数
+                ,limit: 6//每页显示条数
+                ,theme: '#FF5722'
+                ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                ,jump: function(obj){
+                    bookCategoryListPage(obj.curr,obj.limit);
+                    v.size = obj.limit;
+                }
+            });
+        });
+	</script>
+	<script>
+        $(function(){
+            bookCategoryListPage(1,6);
+        })
+        //查询数据的请求，
+        function bookCategoryListPage(pageIndex,pageSize) {
+            $.ajax({
+                url:"/../bookcategoryList",
+                type:"get",
+                async: false,//使用同步的方式,true为异步方式
+                data:{
+                    pageIndex:pageIndex
+                    ,pageSize:pageSize
+                },
+                success:function(data){
+                    v.datalist = data.data.list;
+                    v.rowCount = data.data.rowCount;
+                },
+                fail:function(){
+                    alert(error);
+                }
+            })
+        }
+        function findbyname(pageIndex,pageSize) {
+            $.ajax({
+                url:"/../findbybookbategorynamelist",
+                type:"get",
+                async: false,//使用同步的方式,true为异步方式
+                data:{
+                    categoryName:$("#findcategoryname").val()
+                    ,pageIndex:pageIndex
+                    ,pageSize:pageSize
+                },
+                success:function(data){
+                    v.datalist = data.data.list;
+                    v.rowCount = data.data.rowCount;
+                },
+                fail:function(){
+                    alert(error);
+                }
+            })
+        }
+        function bookCategoryList(){
+            $.ajax({
+                url:"/../findbookcategory",
+                type:"get",
+                async: false,//使用同步的方式,true为异步方式
+                data:{
+                },
+                success:function(data){
+                    editlb.category = data.data;
+                    addlb.category = data.data;
+                },
+                fail:function(){
+                    alert(error);
+                }
+            })
+        }
+		var v = new Vue({
+			el: "#app",
+			data: {
+				datalist: []
+				,rowCount:1
+			},
+			methods: {
+                editlb: function (index) {
+                    bookCategoryList();
+                    setTimeout(function () {
+                        layui.form.render();//延迟重新渲染
+                    }, 10);
+                    layer.open({
+                        anim: 3,
+                        area: ['400px', '300px'],
+                        title: "编辑图书类别",
+                        type: 1,
+                        content: $("#editlb")
+                    })
+					localStorage.setItem("bookCategoryId",this.datalist[index].bookCategoryId)
+                    editlb.bookCategory = this.datalist[index];
+                },
+                addlb: function () {
+                    bookCategoryList();
+                    setTimeout(function () {
+                        layui.form.render();//延迟重新渲染
+                    }, 10);
+                    layer.open({
+                        anim: 5,
+                        area: ['400px', '300px'],
+                        title: "添加图书类别",
+                        type: 1,
+                        content: $("#addlb")
+                    })
+                },
+                find: function () {
+                    findbyname(1,6)
+                    layui.use(['laypage'], function(){
+                        var laypage = layui.laypage
+                        //分页显示
+                        laypage.render({
+                            elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+                            ,count: v.rowCount//数据总条数
+                            ,limit: 6//每页显示条数
+                            ,theme: '#FF5722'
+                            ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                            ,jump: function(obj){
+                                findbyname(obj.curr,obj.limit);
+                                v.size = obj.limit;
+                            }
+                        });
+                    });
+                },
+                dellb: function (index) {
+                    if (confirm("确定要删除吗")){
+                        $.ajax({
+                            url:"/../deletebookcategory",
+                            type:"delete",
+                            async: false,//使用同步的方式,true为异步方式
+                            data:{
+                                categoryName:this.datalist[index].bookCategoryName
+                            },
+                            success:function(data){
+                                window.location.reload();
+                            },
+                            fail:function(){
+                                alert(error);
+                            }
+                        })
+                    }
+                },
+			},
+		});
+        //新增类别
+        var addlb = new Vue({
+            el:"#addlb",
+            data:{
+                category:[],
+                address:[]
+            },
+            methods:{
+                add:function () {
+					$.ajax({
+						url:"/../addcategory",
+						type:"post",
+						data:{
+							catergoryName:$("#addcategoryname").val(),
+							fatherCategoryName:$("select option:checked").text(),
+						},
+						async: false,//使用同步的方式,true为异步方式
+						success:function(data){
+                            window.location.reload();
+						},
+						fail:function(){
+							alert(error);
+						}
+					})
+                },
+                close:function () {
+                    layer.close(layer.index);//弹出框关闭按钮触发函数close()
+                }
+            }
+        });
+        //编辑类别
+        var editlb = new Vue({
+            el:"#editlb",
+            data:{
+                bookCategory:[],
+                category:[],
+            },
+            methods:{
+                save:function () {
+                    $.ajax({
+                        url:"/../updatecategory",
+                        type:"post",
+                        data:{
+                            catergoryId:this.bookCategory.bookCategoryId,
+                            catergoryName:$("#editcategoryname").val(),
+                            fatherCategoryName:$("#selectcategory option:checked").text(),
+                        },
+                        async: false,//使用同步的方式,true为异步方式
+                        success:function(data){
+                            window.location.reload();
+                        },
+                        fail:function(){
+                            alert(error);
+                        }
+                    })
+                },
+                close:function () {
+                    layer.close(layer.index);//弹出框关闭按钮触发函数close()
+                }
+            }
+        });
+	</script>
+</html>

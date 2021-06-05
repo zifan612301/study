@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>会员用户管理</title>
+    <link rel="stylesheet" href="../js/layui/css/layui.css"  media="all">
+    <script src="../js/layui/layui.js" charset="utf-8"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <!--导航栏增删改用-->
+    <blockquote class="layui-elem-quote">
+        <table class="layui-form">
+            <tr>
+                <td>&nbsp;&nbsp;<button type="button" class="layui-btn layui-btn-primary" style="display: inline-block;">用户名：</button></td>
+                <td><input type="text" id="findusername" name="title" id="content" placeholder="请输入内容" autocomplete="off" class="layui-input" style="width: 200px;"></td>
+                <td>
+                <td>&nbsp;&nbsp;
+                    <button type="button" class="layui-btn" id="querys" v-on:click="find()">查询</button>
+                </td>
+            </tr>
+        </table>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>会员用户列表</legend>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>会员名</th>
+                <th>性别</th>
+                <th>出生年月</th>
+                <th>用户邮箱</th>
+                <th>用户状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item,index in datalist">
+                <td>{{index+1}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.userSex}}</td>
+                <td>{{item.userBirthday}}</td>
+                <td>{{item.userEmail}}</td>
+                <td>{{item.userStaus}}</td>
+                <td style="width: 400px;">
+                    <!--<button class="layui-btn layui-btn-normal"><img src="../images/sousuo.png"/>&nbsp;浏览</button>-->
+                    <button class="layui-btn layui-btn-normal" v-on:click="lookuser(index)">
+                        <img src="../img/edit.png"/>&nbsp;详情
+                    </button>
+                    <button class="layui-btn layui-btn-normal" v-on:click="resetpwd(index)">
+                        <img src="../img/password.png"/>&nbsp;重置密码
+                    </button>
+                    <button v-if="item.userStaus=='正常'" class="layui-btn layui-btn-danger" v-on:click="deluser(index)">
+                        <img src="../img/delete.png"/>&nbsp;删除
+                    </button>
+                    <button v-else class="layui-btn" v-on:click="adduser(index)">
+                        <img src="../img/edit.png"/>&nbsp;添加
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page" style="margin-left: 28%"></div>
+    </fieldset>
+
+</div>
+<div id="lookuser" style="display: none;">
+    <table class="layui-table layui-form" lay-skin="nob">
+        <tr>
+            <td rowspan="3">头像</td>
+            <td rowspan="3"><img :src="user.userPic"></td>
+            <td>用户名：</td>
+            <td>
+                <input type="text" class="layui-input" v-model="user.userName" readonly/>
+            </td>
+        </tr>
+        <tr>
+            <td>出生年月：</td>
+            <td>
+                <input type="text" class="layui-input" v-model="user.userBirthday" readonly/>
+            </td>
+        </tr>
+        <tr>
+            <td>性别：</td>
+            <td>
+                <input type="text" class="layui-input" v-model="user.userSex" readonly/>
+            </td>
+        </tr>
+        <tr>
+            <td>真实姓名：</td>
+            <td>
+                <input type="text" class="layui-input" v-model="user.userRealName" readonly/>
+            </td>
+            <td>学号：</td>
+            <td>
+                <input type="text" class="layui-input" v-model="user.userStuId" readonly/>
+            </td>
+        </tr>
+        <tr>
+            <td>电话：</td>
+            <td>
+                <input type="text" class="layui-input" v-model="user.userTel" readonly/>
+            </td>
+            <td>邮箱：</td>
+            <td>
+                <input type="text" class="layui-input" v-model="user.userEmail" readonly/>
+            </td>
+        </tr>
+        <tr>
+            <td>用户角色：</td>
+            <td>
+                <input type="text" class="layui-input" v-model="user.userRole" readonly/>
+            </td>
+            <td>用户状态：</td>
+            <td>
+                <input type="text" class="layui-input" v-model="user.userStatus" readonly/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <button  style="margin-left: 300px" class="layui-btn layui-btn-primary" @click="close">关闭</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script>
+    layui.use(['laypage', 'layer','form'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer
+            ,form = layui.form
+        //分页显示
+        laypage.render({
+            elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+            ,count: v.rowCount//数据总条数
+            ,limit: 6//每页显示条数
+            ,theme: '#FF5722'
+            ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+            ,jump: function(obj){
+                userListPage(obj.curr,obj.limit);
+                v.size = obj.limit;
+            }
+        });
+    });
+</script>
+<script>
+    $(function(){
+        userListPage(1,6);
+    })
+    //查询数据的请求，
+    function userListPage(pageIndex,pageSize) {
+        $.ajax({
+            url:"/../userlist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                pageIndex:pageIndex
+                ,pageSize:pageSize
+            },
+            success:function(data){
+                v.datalist = data.data.list;
+                console.log(v.datalist)
+                v.rowCount = data.data.rowCount;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    //根据用户名查找
+    function findbybookname(pageIndex,pageSize) {
+        $.ajax({
+            url:"/../findusernamelist",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                userName:$("#findusername").val()
+                ,pageIndex:pageIndex
+                ,pageSize:pageSize
+            },
+            success:function(data){
+                v.datalist = data.data.list;
+                v.rowCount = data.data.rowCount;
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    function findByUserId(userId) {
+        console.log(userId);
+        $.ajax({
+            url:"/../userdetail",
+            type:"get",
+            async: false,//使用同步的方式,true为异步方式
+            data:{
+                userId:userId
+            },
+            success:function(data){
+                lookuser.user = data.data;
+                console.log(lookuser.user);
+            },
+            fail:function(){
+                alert(error);
+            }
+        })
+    }
+    var v = new Vue({
+        el: "#app",
+        data: {
+            datalist: []
+            ,rowCount:1
+        },
+        methods: {
+            lookuser: function (index) {
+                findByUserId(this.datalist[index].userId);
+                setTimeout(function () {
+                    layui.form.render();//延迟重新渲染
+                }, 10);
+                layer.open({
+                    anim: 3,
+                    area: ['700px', '500px'],
+                    title: "查看用户详情",
+                    type: 1,
+                    content: $("#lookuser")
+                })
+            },
+            find: function () {
+                findbybookname(1,6)
+                layui.use(['laypage'], function(){
+                    var laypage = layui.laypage
+                    //分页显示
+                    laypage.render({
+                        elem: 'page'//指向存放分页的容器，值可以是容器ID、DOM对象
+                        ,count: v.rowCount//数据总条数
+                        ,limit: 6//每页显示条数
+                        ,theme: '#FF5722'
+                        ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                        ,jump: function(obj){
+                            findbybookname(obj.curr,obj.limit);
+                            v.size = obj.limit;
+                        }
+                    });
+                });
+            },
+            resetpwd:function(index){
+                if (confirm("确定要重置密码吗")){
+                    $.ajax({
+                        url:"/../resetpwd",
+                        type:"post",
+                        async: false,//使用同步的方式,true为异步方式
+                        data:{
+                            userId:this.datalist[index].userId
+                        },
+                        success:function(data){
+                            alert("修改成功")
+                            window.location.reload();
+                        },
+                        fail:function(){
+                            alert(error);
+                        }
+                    })
+                }
+            },
+            deluser: function (index) {
+                if (confirm("确定要删除用户吗")){
+                    $.ajax({
+                        url:"/../deleteuser",
+                        type:"delete",
+                        async: false,//使用同步的方式,true为异步方式
+                        data:{
+                            userId:this.datalist[index].userId
+                        },
+                        success:function(data){
+                            window.location.reload();
+                        },
+                        fail:function(){
+                            alert(error);
+                        }
+                    })
+                }
+            },
+            adduser: function (index) {
+                if (confirm("确定要添加该用户吗")){
+                    $.ajax({
+                        url:"/../adduser",
+                        type:"get",
+                        async: false,//使用同步的方式,true为异步方式
+                        data:{
+                            userId:this.datalist[index].userId
+                        },
+                        success:function(data){
+                            window.location.reload();
+                        },
+                        fail:function(){
+                            alert(error);
+                        }
+                    })
+                }
+            },
+        },
+    });
+    //编辑类别
+    var lookuser = new Vue({
+        el:"#lookuser",
+        data:{
+            user:[],
+        },
+        methods:{
+            close:function () {
+                layer.close(layer.index);//弹出框关闭按钮触发函数close()
+            }
+        }
+    });
+</script>
+</html>
